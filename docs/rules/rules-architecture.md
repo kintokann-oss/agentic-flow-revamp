@@ -1,0 +1,97 @@
+# Application architecture
+
+**Slot:** `rules.architecture` · **Terms:** [UBIQUITOUS_LANGUAGE.md](../context/UBIQUITOUS_LANGUAGE.md)
+
+## What the app does
+
+One page (**App**). The user sets **Toggle state** on or off with **BaseButton**. **Toggle state** is stored on the server (`GET`/`PUT` `/api/toggle-state`).
+
+| Toggle state | UI |
+|--------------|-----|
+| **On** | **Flow background** uses the active gradient; **FlowDialog** uses active styling. |
+| **Off** | Idle gradient and idle **FlowDialog** styling. |
+
+When flow is on, **TimeDialog** (nested in **FlowDialog**) shows a live clock and can persist **Saved time** (`GET`/`PUT` `/api/saved-time`).
+
+## Boundaries
+
+| Layer | Profile path | Responsibility |
+|-------|--------------|----------------|
+| Client | `@profile:paths.frontend_root` | **App**, components, hooks, API clients, i18n, theme tokens |
+| Server | `@profile:paths.backend_root` | HTTP routes, domain services |
+| Schema | `@profile:paths.migrations_root`, `src/db.py` | DDL, seeds, connection helpers (**be-sql-agent**) |
+| Store | SQLite file (`DATABASE_URL`) | `app_state`, `app_strings` |
+
+Client calls server over HTTP JSON. Server reads and writes the store through services only.
+
+## Backend layout
+
+```
+@profile:paths.backend_root/
+├── migrations/     # be-sql-agent
+├── src/
+│   ├── db.py       # get_connection, init_db, key constants
+│   ├── main.py     # app entry, mount routers, init_db on startup
+│   ├── routes/     # be-dev — parse, call service, return model
+│   └── services/   # be-dev — parameterized SQL only
+└── tests/          # be-testing-agent
+```
+
+| Module | Role |
+|--------|------|
+| `routes/health.py` | Liveness |
+| `routes/info.py` | Name/version for client header |
+| `routes/toggle_state.py` | **Toggle state** API |
+| `routes/saved_time.py` | **Saved time** API |
+| `services/toggle_state.py` | `app_state` row for toggle key |
+| `services/saved_time.py` | `app_strings` row for saved-time key |
+
+**Rule:** routes call services; services run SQL. No SQL in routes; no HTTP types in services.
+
+Catalogs: [be-schema.md](../context/be-schema.md) · [api-list.md](../context/api-list.md)
+
+## Frontend layout
+
+```
+@profile:paths.frontend_root/src/
+├── App.tsx           # shell, flow background class, hosts controls
+├── api/              # one module per backend resource
+├── hooks/            # useToggleState, useSavedTime
+├── components/
+│   ├── BaseButton/   # base — boolean control
+│   ├── FlowDialog/   # base — flow on/off dialog shell
+│   └── TimeDialog/   # extending — on FlowDialog
+├── styles/theme.css
+└── i18n/locales/
+```
+
+| Piece | Role |
+|-------|------|
+| **App** | Applies `flow-active` / `flow-idle` shell class from toggle |
+| **BaseButton** | Sets **Toggle state** via `useToggleState` |
+| **FlowDialog** | Surface reflects toggle; hosts **TimeDialog** |
+| **TimeDialog** | Clock + save → **Saved time** API |
+| **useToggleState** | Load on mount; PUT on change |
+| **useSavedTime** | Load/save timestamp |
+
+Tiers and tokens: [fe-design-system.md](../context/fe-design-system.md)
+
+## Persistence (current)
+
+| Table | Key | Value |
+|-------|-----|-------|
+| `app_state` | `toggle` | `0` or `1` |
+| `app_strings` | `saved_time` | ISO-8601 string |
+
+## Out of scope
+
+| Topic | Policy |
+|-------|--------|
+| Auth | `defaults.auth` in profile |
+| Multi-tenant data | Single global toggle and saved time |
+| Deploy / CI | Not in task artifacts |
+| E2E | [rules-testing.md](rules-testing.md) |
+
+## When to edit
+
+Update when module boundaries or store shape change. Feature-level detail stays in context catalogs and **UBIQUITOUS_LANGUAGE**.

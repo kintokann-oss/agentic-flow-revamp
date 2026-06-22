@@ -34,7 +34,7 @@ See `@profile:stack.*` in [`project.profile.yaml`](../project.profile.yaml).
 |-------|---------------------|
 | FE | Vitest + React Testing Library + jsdom |
 | BE | pytest + FastAPI TestClient |
-| E2E | **Out of scope** for this PoC |
+| E2E | Out of scope unless profile/plan adds it |
 
 ## Required
 

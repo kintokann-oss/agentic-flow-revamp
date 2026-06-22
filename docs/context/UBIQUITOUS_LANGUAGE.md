@@ -44,7 +44,7 @@
 
 **Migration:** Versioned SQL file under `apps/api/migrations/` — owned by **be-sql-agent** (catalog: [be-schema.md](be-schema.md)).
 
-**Toggle state:** Persisted boolean API (`GET`/`PUT` `/api/toggle-state`) backed by SQLite in this PoC.
+**Toggle state:** Persisted boolean (`GET`/`PUT` `/api/toggle-state`); stored in SQLite `app_state`.
 
 **Saved time:** Persisted ISO timestamp API (`GET`/`PUT` `/api/saved-time`).
 

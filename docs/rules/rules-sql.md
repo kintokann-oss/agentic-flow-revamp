@@ -23,7 +23,7 @@
 
 1. **One file per change** — `NNN_description.sql` (zero-padded prefix, snake_case description)
 2. **Idempotent where possible** — prefer `CREATE TABLE IF NOT EXISTS`, `INSERT OR IGNORE`
-3. **No DROP in PoC** unless plan explicitly requires destructive migration (document in handoff)
+3. **No DROP** unless plan requires destructive migration (document in handoff)
 4. **No raw DDL in routes or services** — only in migration files + `init_db()` runner
 5. **Register every migration file** in [be-schema.md](../context/be-schema.md) with human `purpose`
 

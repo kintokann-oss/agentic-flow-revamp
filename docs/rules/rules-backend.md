@@ -21,7 +21,7 @@
 
 ## Pydantic models
 
-- Request/response models colocated in the route module (this PoC) or extracted when shared
+- Request/response models colocated in the route module or extracted when shared
 - Register shared models in [types.md](../context/types.md) with `kind: pydantic_model`
 - Use explicit field types; avoid untyped `dict` in public APIs
 

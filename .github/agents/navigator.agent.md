@@ -21,6 +21,7 @@ Translate the user goal into task-specific **reuse vs create** decisions by read
 | Slot | Purpose |
 |------|---------|
 | `@profile:rules.decisions` | Reuse policy, scope inference |
+| `@profile:rules.architecture` | App boundaries and module layout |
 
 ### Context (Layer 3)
 

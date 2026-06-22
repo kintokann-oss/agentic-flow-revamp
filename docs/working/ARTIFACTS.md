@@ -286,44 +286,20 @@ When a bug ships, the process failed twice: **the code** and **the tests**. `tes
 
 ## Flow — when each file appears
 
-```mermaid
-flowchart TD
-  PA[plan-agent]
-  PLN[plan.md]
-  OR[orchestrator]
-  ST[state.yaml]
-  RL[run-log.md]
-  NAV[navigator]
-  FND[findings.md]
-  SQL[be-sql-agent]
-  SQH[be-sql-handoff.md]
-  FDN[fe-design-navigator]
-  BD[be-dev]
-  CSUM[contract-summary.md]
-  BTH[be-test-handoff.md]
-  FD[fe-dev]
-  USUM[ui-summary.md]
-  FTH[fe-test-handoff.md]
-  FEV[flow-end-validator]
-  AUD[context-audit.md]
-  DBG[debugger]
-  TG[test-gap.md]
+Default full-stack order (omit steps per plan):
 
-  PA --> PLN
-  PLN --> H1{You: proceed on plan}
-  H1 --> OR
-  OR --> ST
-  OR --> RL
-  OR --> NAV --> FND
-  OR --> SQL --> SQH
-  OR --> FDN --> FND
-  OR --> BD --> CSUM
-  OR --> BD --> BTH
-  OR --> FD --> USUM
-  OR --> FD --> FTH
-  OR --> FEV --> AUD
-  OR --> DBG --> TG
-```
+1. **plan-agent** → `plan.md` → you **proceed**
+2. **orchestrator** → `state.yaml`, `run-log.md`
+3. **navigator** → `findings.md`
+4. **be-sql-agent** → `be-sql-handoff.md` (schema changes only)
+5. **be-dev** → `contract-summary.md`, `be-test-handoff.md`
+6. **be-testing-agent** → tests + `be-tests` catalog
+7. **fe-design-navigator** → Design section in `findings.md`
+8. **fe-dev** → `ui-summary.md`, `fe-test-handoff.md`
+9. **fe-testing-agent** → tests + `fe-tests` catalog
+10. **flow-end-validator** → `context-audit.md`, final state
+
+Bug-fix: navigator → debugger → `test-gap.md` → testing agent → flow-end-validator.
 
 ---
 

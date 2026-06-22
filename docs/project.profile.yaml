@@ -4,7 +4,7 @@
 
 meta:
   name: agentic-flow-revamp
-  description: PoC monorepo — React + FastAPI (kintokann-oss)
+  description: Agentic workflow reference monorepo
 
 paths:
   backend_root: apps/api
@@ -87,6 +87,7 @@ rules_slots:
   testing: docs/rules/rules-testing.md
   theming: docs/rules/rules-theming.md
   i18n: docs/rules/rules-i18n.md
+  architecture: docs/rules/rules-architecture.md
 
 artifact_slots:
   plan: plan.md
@@ -122,6 +123,7 @@ agent_bindings:
     forbidden_globs: []
     reads:
       - rules.decisions
+      - rules.architecture
       - context.ubiquitous_language
       - context.index
       - artifact.run_log
@@ -150,6 +152,7 @@ agent_bindings:
       - "{paths.frontend_root}/**"
     reads:
       - rules.decisions
+      - rules.architecture
       - context.index
       - context.ubiquitous_language
       - artifact.plan

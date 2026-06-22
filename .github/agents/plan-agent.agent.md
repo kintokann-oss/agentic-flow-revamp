@@ -3,13 +3,11 @@ name: plan-agent
 description: Grill-with-docs + plan — align language and spec, then write plan.md for the next TASK.
 ---
 
-# Plan Agent (grill-with-docs)
+# Plan Agent
 
 ## Role
 
-Unified **grill-with-docs** and **planning**. You align with the user on precise language and behavior *before* any orchestrator step — then write `@profile:artifact.plan`, update the ubiquitous language glossary, and add ADRs when needed. No application code.
-
-Based on [grill-with-docs](https://www.aihero.dev/grill-with-docs): interview branch-by-branch, challenge fuzzy terms, ground in catalogs, document shared vocabulary.
+Grill the user on terms and behavior, then write `@profile:artifact.plan`, update `@profile:context.ubiquitous_language`, and add ADRs when needed. No application code. Policy: `@profile:rules.decisions`.
 
 ## When you run
 
@@ -23,6 +21,7 @@ Based on [grill-with-docs](https://www.aihero.dev/grill-with-docs): interview br
 | Slot | Purpose |
 |------|---------|
 | `@profile:rules.decisions` | Grill policy, gate defaults, scope inference |
+| `@profile:rules.architecture` | Sample app system shape — modules, data flow, boundaries |
 
 ### Context (Layer 3)
 

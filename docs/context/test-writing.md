@@ -3,7 +3,7 @@
 > **Type:** Procedural context (patterns and examples) — **not** a symbol-per-file catalog. Test inventory lives in [be-tests.md](be-tests.md) and [fe-tests.md](fe-tests.md).  
 > **Policy:** [`rules-testing.md`](../rules/rules-testing.md) · **Agents:** `fe-testing-agent` / `be-testing-agent` · **Commands:** [`project.profile.yaml`](../project.profile.yaml) → `commands.be_test`, `commands.fe_test`
 
-Colocated unit/integration tests only — Vitest + RTL (FE), pytest + TestClient (BE). No E2E in this PoC.
+Colocated unit/integration tests only. No E2E unless plan adds it. Stack: `@profile:stack.*` in profile.
 
 ---
 
@@ -19,21 +19,11 @@ Colocated unit/integration tests only — Vitest + RTL (FE), pytest + TestClient
 
 ## When tests get written (agent flow)
 
-```mermaid
-flowchart LR
-  DEV[fe-dev / be-dev] --> HAND[test handoff]
-  DBG[fe/be-debugger] --> TG[test-gap.md]
-  HAND --> TST[fe/be-testing-agent]
-  TG --> TST
-  TST --> RUN[npm test / pytest]
-  TST --> CAT[update be-tests / fe-tests catalog]
-```
-
-| Trigger | Who writes tests | Priority |
-|---------|------------------|----------|
-| Dev handoff lists testable behaviors | `fe-testing-agent` / `be-testing-agent` | Cover every handoff row |
-| **`test-gap.md`** exists (bug-fix) | Same testing agents | **Mandatory** — every row |
-| Handoff says no new exports to test | Orchestrator may fast-complete step | light gate |
+| Trigger | Input | Agent | Then |
+|---------|-------|-------|------|
+| Feature / new exports | `be-test-handoff.md` / `fe-test-handoff.md` | be/fe-testing-agent | Run `@profile:commands.*_test`; update test catalog |
+| Bug-fix | `test-gap.md` | be/fe-testing-agent | Implement every listed test |
+| No new exports in handoff | — | orchestrator | May skip testing step (see agent-decisions) |
 
 ---
 

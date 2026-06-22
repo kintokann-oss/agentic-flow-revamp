@@ -1,110 +1,64 @@
 # agentic-flow-revamp
 
-PoC monorepo — [kintokann-oss/agentic-flow-revamp](https://github.com/kintokann-oss/agentic-flow-revamp)
+Multi-agent workflow with generic agents, a project profile, and an app under `apps/`.
 
+Repository: [kintokann-oss/agentic-flow-revamp](https://github.com/kintokann-oss/agentic-flow-revamp)
 
+---
 
-## Stack
+## What this is
 
+Specialist agents run in sequence. Each step reads and writes files under `docs/working/<TASK-ID>/`. You approve the plan and checkpoints; agents do not share context in chat.
 
+Paths, commands, and stack labels live in [`docs/project.profile.yaml`](docs/project.profile.yaml). Agent roles stay in [`.github/agents/`](.github/agents/) and use `@profile:` slots — not hardcoded paths.
 
-- `apps/web-react` — Vite + React + TypeScript + react-i18next
+---
 
-- `apps/api` — FastAPI (`GET /health`, `GET /api/info`, toggle + saved-time APIs); OpenAPI at `/openapi.json` when running
+## What it offers
 
+| Piece | Location |
+|-------|----------|
+| Agents | [`.github/agents/`](.github/agents/) |
+| Profile (paths, bindings, commands) | [`docs/project.profile.yaml`](docs/project.profile.yaml) |
+| Orchestration | [`docs/rules/agent-decisions.md`](docs/rules/agent-decisions.md) |
+| Coding rules | [`docs/rules/`](docs/rules/) |
+| Export catalogs | [`docs/context/`](docs/context/) |
+| Task artifacts | [`docs/working/<TASK-ID>/`](docs/working/) |
+| Glossary | [`docs/context/UBIQUITOUS_LANGUAGE.md`](docs/context/UBIQUITOUS_LANGUAGE.md) |
+| Handoff audit | [`scripts/validate_context_catalog.py`](scripts/validate_context_catalog.py) |
 
+Roster and step order: [`docs/AGENT-REGISTRY.md`](docs/AGENT-REGISTRY.md) · Artifacts: [`docs/working/ARTIFACTS.md`](docs/working/ARTIFACTS.md)
 
-**Port this workflow to another repo:** edit [`docs/project.profile.yaml`](docs/project.profile.yaml) only for paths/stacks; agents stay generic.
+---
 
+## Layers
 
+| Layer | Location | Role |
+|-------|----------|------|
+| 1 | `.github/agents/` | Generic agent roles |
+| 2 | `docs/rules/agent-decisions.md` | Gates, reuse, routing |
+| 3 | `project.profile.yaml`, `docs/rules/`, `docs/context/` | Project-specific config and catalogs |
+| 4 | `docs/working/<TASK-ID>/` | One task’s plan, handoffs, state |
 
-## Theming & i18n
+---
 
+## App under `apps/`
 
+Single page: user toggles **Toggle state** on/off; UI and **FlowDialog** follow that state; optional **Saved time** inside **FlowDialog**. Module layout: [`docs/rules/rules-architecture.md`](docs/rules/rules-architecture.md). Run/test commands: `commands.*` in the profile.
 
-- Theme tokens: `apps/web-react/src/styles/theme.css` (only file with raw colors)
+---
 
-- Locales: `apps/web-react/src/i18n/locales/en.json`, `el.json`
+## Start a task
 
-- Rules: `docs/rules/rules-theming.md`, `docs/rules/rules-i18n.md`
+1. **plan-agent** → `docs/working/TASK-001/plan.md`
+2. You reply **proceed**
+3. **orchestrator** runs plan steps
+4. **flow-end-validator** — catalog audit + tests + sign-off
 
-- Key catalog: `docs/context/fe-i18n.md`
+Index: [`docs/working/INDEX.md`](docs/working/INDEX.md)
 
+---
 
+## Port to another repo
 
-## Run
-
-
-
-```powershell
-
-# Backend
-
-cd apps\api
-
-pip install -r requirements.txt
-
-uvicorn src.main:app --reload --port 8000
-
-
-
-# Frontend (new terminal)
-
-cd apps\web-react
-
-npm install
-
-npm run dev
-
-```
-
-
-
-## Testing
-
-
-
-Full workflow: [`docs/context/test-writing.md`](docs/context/test-writing.md)
-
-
-
-```powershell
-
-# FE — from apps/web-react
-
-npm test
-
-
-
-# BE — from apps/api
-
-python -m pytest tests/ -q
-
-
-
-# Context catalog audit — from repo root (flow-end-validator)
-
-python scripts/validate_context_catalog.py --repo . --task TASK-XXX
-
-```
-
-
-
-Policy: colocated tests only · AAA pattern · i18n assertions via `i18n.t()` · bug-fix uses `test-gap.md`.
-
-
-
-## Agentic workflow
-
-
-
-**Glossary:** [UBIQUITOUS_LANGUAGE.md](docs/context/UBIQUITOUS_LANGUAGE.md) · **Registry:** [AGENT-REGISTRY.md](docs/AGENT-REGISTRY.md) · **Artifacts:** [ARTIFACTS.md](docs/working/ARTIFACTS.md)
-
-
-
-Toolkit source: [agentic-dev-toolkit](../AI-news/agentic-dev-toolkit/HANDOVER.md)
-
-
-
-Task state: `docs/working/INDEX.md`
-
+Copy agents and `docs/`. Edit `project.profile.yaml`, rules, and context for the new product. Keep `.github/agents/` unchanged.

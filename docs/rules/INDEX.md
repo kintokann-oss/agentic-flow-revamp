@@ -9,13 +9,14 @@
 | **Rules** | `docs/rules/*.md` | How to write code — conventions, placement, anti-patterns | Humans |
 | **Context** | `docs/context/*.md` | What exists — durable inventory of exports, routes, keys, tests | Dev/testing agents after implementation |
 
-Rules tell agents **how** to build; context catalogs record **what** was built. At task end, `flow-end-validator` runs [`validate_context_catalog.py`](../../scripts/validate_context_catalog.py) to confirm handoff exports appear in the correct catalog with human `purpose` text.
+Rules = how to build. Context = what exists. Audit at task end: `validate_context_catalog.py`.
 
 ---
 
 | File | Slot | Applies to (profile scope) | Read by agents | Written by agents |
 |------|------|----------------------------|----------------|-------------------|
 | [agent-decisions.md](agent-decisions.md) | `rules.decisions` | All agents | plan-agent, orchestrator, all specialists | humans |
+| [rules-architecture.md](rules-architecture.md) | `rules.architecture` | `@profile:paths.backend_root`, `@profile:paths.frontend_root` | plan-agent, navigator | humans |
 | [rules-frontend.md](rules-frontend.md) | `rules.frontend` | `@profile:paths.frontend_root/**` | fe-dev | humans |
 | [rules-backend.md](rules-backend.md) | `rules.backend` | `@profile:paths.backend_root/**` | be-dev | humans |
 | [rules-sql.md](rules-sql.md) | `rules.sql` | `@profile:paths.migrations_root/**`, db.py | be-sql-agent | humans |

@@ -41,7 +41,7 @@
 
 ## State
 
-- Prefer custom hooks over global stores in this PoC
+- Prefer custom hooks over global stores unless plan specifies otherwise
 - Server state flows: hook → API client → backend; document in fe-utils + fe-services catalogs
 
 ## Styling

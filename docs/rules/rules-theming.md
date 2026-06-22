@@ -29,4 +29,4 @@ Organize `:root` in this order:
 ## Agents
 
 - `fe-dev`, `fe-design-navigator` — read [`fe-design-system.md`](../context/fe-design-system.md) for theme path
-- Future CI: lint for hex outside `theme.css` (not automated in PoC)
+- Future CI: lint for hex outside `theme.css` (not automated here)

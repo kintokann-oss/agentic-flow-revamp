@@ -11,7 +11,7 @@
 |-------|----------|------|
 | 1 | `.github/agents/*.agent.md` | Generic roles — Reads / Steps / Writes via `@profile:` slots |
 | 2 | `docs/rules/agent-decisions.md` | Orchestration policy (gates, reuse, routing) |
-| 3 | `docs/project.profile.yaml` + `docs/rules/*` + `docs/context/*` | **Project factory** — paths, catalogs, coding rules |
+| 3 | [`docs/project.profile.yaml`](project.profile.yaml) + `docs/rules/*` + `docs/context/*` | **Project factory** — paths, catalogs, coding rules, app architecture |
 | 4 | `docs/working/<TASK-ID>/*` | **Task run** — plan, findings, handoffs, state |
 
 ---
