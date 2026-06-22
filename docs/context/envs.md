@@ -1,6 +1,6 @@
 # Environment variables
 
-> **Slot:** `context.envs` · **Rules:** [rules-backend.md](../rules/rules-backend.md), [rules-frontend.md](../rules/rules-frontend.md) · **Writers:** humans (agents read only)
+> **Slot:** `context.envs` · **Rules:** [rules-backend.md](../rules/rules-backend.md), [rules-frontend.md](../rules/rules-frontend.md) · **Writers:** be-dev, fe-dev
 
 ## How to use this file
 

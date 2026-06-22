@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { TimeDialog } from '../TimeDialog/TimeDialog'
 import './FlowDialog.css'
 
 export type FlowDialogProps = {
@@ -21,7 +20,6 @@ export function FlowDialog({ flowActive }: FlowDialogProps) {
         <span className="flow-dialog__dot" aria-hidden="true" />
         <p className="flow-dialog__title">{label}</p>
       </div>
-      <TimeDialog />
     </div>
   )
 }

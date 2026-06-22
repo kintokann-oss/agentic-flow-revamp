@@ -11,7 +11,7 @@ One page (**App**). The user sets **Toggle state** on or off with **BaseButton**
 | **On** | **Flow background** uses the active gradient; **FlowDialog** uses active styling. |
 | **Off** | Idle gradient and idle **FlowDialog** styling. |
 
-When flow is on, **TimeDialog** (nested in **FlowDialog**) shows a live clock and can persist **Saved time** (`GET`/`PUT` `/api/saved-time`).
+No **extending components** are shipped yet. When added, register them in [fe-design-system.md](../context/fe-design-system.md) with `extends_base` (see generic **DetailPanel** example there).
 
 ## Boundaries
 
@@ -20,7 +20,7 @@ When flow is on, **TimeDialog** (nested in **FlowDialog**) shows a live clock an
 | Client | `@profile:paths.frontend_root` | **App**, components, hooks, API clients, i18n, theme tokens |
 | Server | `@profile:paths.backend_root` | HTTP routes, domain services |
 | Schema | `@profile:paths.migrations_root`, `src/db.py` | DDL, seeds, connection helpers (**be-sql-agent**) |
-| Store | SQLite file (`DATABASE_URL`) | `app_state`, `app_strings` |
+| Store | SQLite file (`DATABASE_URL`) | `app_state` |
 
 Client calls server over HTTP JSON. Server reads and writes the store through services only.
 
@@ -42,13 +42,11 @@ Client calls server over HTTP JSON. Server reads and writes the store through se
 | `routes/health.py` | Liveness |
 | `routes/info.py` | Name/version for client header |
 | `routes/toggle_state.py` | **Toggle state** API |
-| `routes/saved_time.py` | **Saved time** API |
 | `services/toggle_state.py` | `app_state` row for toggle key |
-| `services/saved_time.py` | `app_strings` row for saved-time key |
 
 **Rule:** routes call services; services run SQL. No SQL in routes; no HTTP types in services.
 
-Catalogs: [be-schema.md](../context/be-schema.md) · [api-list.md](../context/api-list.md)
+Catalogs: [be-schema.md](../context/be-schema.md) · [api-list.md](../context/api-list.md) (see **Example format** sections for generic CRUD templates).
 
 ## Frontend layout
 
@@ -56,11 +54,10 @@ Catalogs: [be-schema.md](../context/be-schema.md) · [api-list.md](../context/ap
 @profile:paths.frontend_root/src/
 ├── App.tsx           # shell, flow background class, hosts controls
 ├── api/              # one module per backend resource
-├── hooks/            # useToggleState, useSavedTime
+├── hooks/            # useToggleState
 ├── components/
 │   ├── BaseButton/   # base — boolean control
-│   ├── FlowDialog/   # base — flow on/off dialog shell
-│   └── TimeDialog/   # extending — on FlowDialog
+│   └── FlowDialog/   # base — flow on/off dialog shell
 ├── styles/theme.css
 └── i18n/locales/
 ```
@@ -69,10 +66,8 @@ Catalogs: [be-schema.md](../context/be-schema.md) · [api-list.md](../context/ap
 |-------|------|
 | **App** | Applies `flow-active` / `flow-idle` shell class from toggle |
 | **BaseButton** | Sets **Toggle state** via `useToggleState` |
-| **FlowDialog** | Surface reflects toggle; hosts **TimeDialog** |
-| **TimeDialog** | Clock + save → **Saved time** API |
+| **FlowDialog** | Surface reflects toggle state |
 | **useToggleState** | Load on mount; PUT on change |
-| **useSavedTime** | Load/save timestamp |
 
 Tiers and tokens: [fe-design-system.md](../context/fe-design-system.md)
 
@@ -81,14 +76,13 @@ Tiers and tokens: [fe-design-system.md](../context/fe-design-system.md)
 | Table | Key | Value |
 |-------|-----|-------|
 | `app_state` | `toggle` | `0` or `1` |
-| `app_strings` | `saved_time` | ISO-8601 string |
 
 ## Out of scope
 
 | Topic | Policy |
 |-------|--------|
 | Auth | `defaults.auth` in profile |
-| Multi-tenant data | Single global toggle and saved time |
+| Multi-tenant data | Single global toggle |
 | Deploy / CI | Not in task artifacts |
 | E2E | [rules-testing.md](rules-testing.md) |
 

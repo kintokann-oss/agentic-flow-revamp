@@ -19,6 +19,7 @@
 | tests | Colocated test file path |
 
 - **Add a row:** 1. Implement route in source 2. Add `## <file-path>` section if missing 3. Add table row 4. List export in be-test-handoff with kind `route`
+- **Example format** sections below show generic CRUD-style rows — not live routes in this repo
 
 ---
 
@@ -41,9 +42,15 @@
 | GET | /api/toggle-state | read_toggle_state |  | ToggleStateResponse | apps/api/tests/test_toggle_state.py |
 | PUT | /api/toggle-state | update_toggle_state | ToggleStateBody | ToggleStateResponse | apps/api/tests/test_toggle_state.py |
 
-## apps/api/src/routes/saved_time.py
+---
+
+## Example format (generic — not in this repo)
+
+> Illustrates a second feature module. Paths use profile slots; swap `items` for your domain.
+
+## @profile:paths.backend_root/src/routes/items.py
 
 | method | path | handler | request_type | response_type | tests |
 |--------|------|---------|--------------|---------------|-------|
-| GET | /api/saved-time | read_saved_time |  | SavedTimeResponse | apps/api/tests/test_saved_time.py |
-| PUT | /api/saved-time | update_saved_time | SavedTimeBody | SavedTimeResponse | apps/api/tests/test_saved_time.py |
+| GET | /api/items | list_items |  | ItemListResponse | …/tests/test_items.py |
+| POST | /api/items | create_item | ItemBody | ItemResponse | …/tests/test_items.py |

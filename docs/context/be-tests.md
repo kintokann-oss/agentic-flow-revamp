@@ -31,15 +31,6 @@
 |---------------|-------------|------|
 | get_info | apps/api/src/routes/info.py | unit |
 
-## apps/api/tests/test_saved_time.py
-
-| covers_symbol | covers_file | kind |
-|---------------|-------------|------|
-| read_saved_time | apps/api/src/routes/saved_time.py | unit |
-| update_saved_time | apps/api/src/routes/saved_time.py | unit |
-| get_saved_time | apps/api/src/services/saved_time.py | unit |
-| set_saved_time | apps/api/src/services/saved_time.py | unit |
-
 ## apps/api/tests/test_toggle_state.py
 
 | covers_symbol | covers_file | kind |
@@ -48,3 +39,17 @@
 | update_toggle_state | apps/api/src/routes/toggle_state.py | unit |
 | get_toggle_state | apps/api/src/services/toggle_state.py | unit |
 | set_toggle_state | apps/api/src/services/toggle_state.py | unit |
+
+---
+
+## Example format (generic — not in this repo)
+
+> Illustrates coverage rows for a second feature test file. Not implemented in this repo.
+
+## @profile:paths.backend_root/tests/test_items.py
+
+| covers_symbol | covers_file | kind |
+|---------------|-------------|------|
+| list_items | …/src/routes/items.py | unit |
+| create_item | …/src/routes/items.py | unit |
+| list_items | …/src/services/items.py | unit |

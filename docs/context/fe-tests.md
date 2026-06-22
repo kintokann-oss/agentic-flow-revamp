@@ -31,13 +31,6 @@
 |---------------|-------------|------|
 | fetchInfo | apps/web-react/src/api/info.ts | unit |
 
-## apps/web-react/src/api/savedTime.test.ts
-
-| covers_symbol | covers_file | kind |
-|---------------|-------------|------|
-| fetchSavedTime | apps/web-react/src/api/savedTime.ts | unit |
-| saveSavedTime | apps/web-react/src/api/savedTime.ts | unit |
-
 ## apps/web-react/src/api/toggleState.test.ts
 
 | covers_symbol | covers_file | kind |
@@ -57,20 +50,26 @@
 |---------------|-------------|------|
 | FlowDialog | apps/web-react/src/components/FlowDialog/FlowDialog.tsx | unit |
 
-## apps/web-react/src/components/TimeDialog/TimeDialog.test.tsx
-
-| covers_symbol | covers_file | kind |
-|---------------|-------------|------|
-| TimeDialog | apps/web-react/src/components/TimeDialog/TimeDialog.tsx | unit |
-
-## apps/web-react/src/hooks/useSavedTime.test.ts
-
-| covers_symbol | covers_file | kind |
-|---------------|-------------|------|
-| useSavedTime | apps/web-react/src/hooks/useSavedTime.ts | unit |
-
 ## apps/web-react/src/hooks/useToggleState.test.ts
 
 | covers_symbol | covers_file | kind |
 |---------------|-------------|------|
 | useToggleState | apps/web-react/src/hooks/useToggleState.ts | unit |
+
+---
+
+## Example format (generic — not in this repo)
+
+> Illustrates test catalog rows for hook/component tests. Not implemented in this repo.
+
+## @profile:paths.frontend_root/src/hooks/useItemList.test.ts
+
+| covers_symbol | covers_file | kind |
+|---------------|-------------|------|
+| useItemList | …/hooks/useItemList.ts | unit |
+
+## @profile:paths.frontend_root/src/components/DetailPanel/DetailPanel.test.tsx
+
+| covers_symbol | covers_file | kind |
+|---------------|-------------|------|
+| DetailPanel | …/components/DetailPanel/DetailPanel.tsx | unit |

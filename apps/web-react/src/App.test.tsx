@@ -3,7 +3,6 @@ import { describe, expect, it, vi } from 'vitest'
 import i18n from './i18n'
 import App from './App'
 import * as infoApi from './api/info'
-import * as savedTimeApi from './api/savedTime'
 import * as toggleApi from './api/toggleState'
 
 describe('App', () => {
@@ -13,7 +12,6 @@ describe('App', () => {
       version: '0.1.0',
     })
     vi.spyOn(toggleApi, 'fetchToggleState').mockResolvedValue({ value: false })
-    vi.spyOn(savedTimeApi, 'fetchSavedTime').mockResolvedValue({ value: null })
 
     render(<App />)
 

@@ -28,9 +28,16 @@
 | ToggleStateBody | pydantic_model | update_toggle_state |
 | ToggleStateResponse | pydantic_model | read_toggle_state, update_toggle_state |
 
-## apps/api/src/routes/saved_time.py
+---
+
+## Example format (generic — not in this repo)
+
+> Illustrates request/response models for a second feature. Not implemented in this repo.
+
+## @profile:paths.backend_root/src/routes/items.py
 
 | name | kind | used_by |
 |------|------|---------|
-| SavedTimeBody | pydantic_model | update_saved_time |
-| SavedTimeResponse | pydantic_model | read_saved_time, update_saved_time |
+| ItemBody | pydantic_model | create_item |
+| ItemResponse | pydantic_model | create_item, list_items |
+| ItemListResponse | pydantic_model | list_items |

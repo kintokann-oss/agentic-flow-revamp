@@ -5,8 +5,8 @@ import el from './locales/el.json'
 
 void i18n.use(initReactI18next).init({
   resources: {
-    en: { app: en.app, time: en.time, common: en.common },
-    el: { app: el.app, time: el.time, common: el.common },
+    en: { app: en.app, common: en.common },
+    el: { app: el.app, common: el.common },
   },
   lng: 'en',
   fallbackLng: 'en',

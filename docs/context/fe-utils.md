@@ -26,8 +26,14 @@
 |------|---------|-------|------------|
 | useToggleState | Load/persist boolean toggle via API | apps/web-react/src/hooks/useToggleState.test.ts | fetchToggleState, saveToggleState |
 
-## apps/web-react/src/hooks/useSavedTime.ts
+---
+
+## Example format (generic — not in this repo)
+
+> Illustrates a hook that wraps an API client. Not implemented in this repo.
+
+## @profile:paths.frontend_root/src/hooks/useItemList.ts
 
 | name | purpose | tests | depends_on |
 |------|---------|-------|------------|
-| useSavedTime | Load/persist saved ISO time via API | apps/web-react/src/hooks/useSavedTime.test.ts | fetchSavedTime, saveSavedTime |
+| useItemList | Load and refresh item list via API | …/useItemList.test.ts | fetchItems, createItem |

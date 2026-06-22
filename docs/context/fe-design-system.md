@@ -5,7 +5,8 @@
 ## How to use this file
 
 - **Read when:** Before styling or adding UI — theme paths, base vs extending tiers, flow tokens
-- **Write when:** Registering a new base or extending component (human `purpose` required)
+- **Write when:** Registering a new base or extending component (`purpose` required)
+- **Example rows** marked *(example)* or under **Example format** are generic templates — not shipped in this repo
 - **Not a symbol-per-row catalog** — uses path tables + base/extending registries instead of `## file-path` sections
 - **Lookup order:** theme tokens → i18n keys → base components → extending components → page shell
 
@@ -51,9 +52,11 @@ Naming: exported component `Base<Name>` in `components/Base<Name>/Base<Name>.tsx
 
 ## Extending components
 
+> **No extending components in this repo yet.** The row below is a **generic example** — shows required columns only; not shipped code.
+
 | name | path | extends_base | purpose |
 |------|------|--------------|---------|
-| TimeDialog | `apps/web-react/src/components/TimeDialog/` | FlowDialog | Nested time panel inside FlowDialog; live clock + save button |
+| DetailPanel *(example)* | `@profile:paths.frontend_root/src/components/DetailPanel/` | FlowDialog | Nested detail panel inside a base dialog shell |
 
 **Rule:** every row **must** have `extends_base` set to an existing **base** component name.
 
@@ -74,4 +77,4 @@ Naming: exported component `Base<Name>` in `components/Base<Name>/Base<Name>.tsx
 2. User-facing text → `locales/*.json` + row in `fe-i18n.md` — no string literals in JSX
 3. Check **base components** — reuse or extend before inventing a parallel control
 4. New **extending** row → `extends_base` must already appear in the base table
-5. Update this file when adding base or extending components (human `purpose` column)
+5. Update this file when adding base or extending components (`purpose` column)

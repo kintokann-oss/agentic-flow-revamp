@@ -32,7 +32,7 @@
 
 **FlowDialog:** Base status dialog shell reflecting flow on/off surface state.
 
-**TimeDialog:** Extending component on FlowDialog — nested time panel with live clock and save action.
+**DetailPanel *(example term)*:** Generic name for an **extending component** nested inside a base dialog — use your domain name in plans and catalogs; not shipped in this repo.
 
 ---
 
@@ -46,7 +46,7 @@
 
 **Toggle state:** Persisted boolean (`GET`/`PUT` `/api/toggle-state`); stored in SQLite `app_state`.
 
-**Saved time:** Persisted ISO timestamp API (`GET`/`PUT` `/api/saved-time`).
+**Item *(example term)*:** Generic domain entity for list/CRUD features — placeholder vocabulary for plans; no `/api/items` in this repo yet.
 
 ---
 
@@ -64,7 +64,7 @@
 
 ## Relationships
 
-- **App** hosts **FlowDialog**, **BaseButton**, and optional nested **TimeDialog**.
+- **App** hosts **FlowDialog** and **BaseButton**.
 - **Extending component** → exactly one **Base component** via `extends_base`.
 - **Route handler** may call **Service** functions; catalog rows must stay aligned.
 

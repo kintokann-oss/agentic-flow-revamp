@@ -14,8 +14,9 @@ Read **one** relevant catalog before opening source code.
 ### Tables
 
 - One row per export (route, service, component, hook, test file, i18n key, etc.)
-- **`purpose` is human-written and required** where the column exists — audit rejects empty, `tbd`, `(sync — add purpose)`
-- Agents add/update rows after implementation; humans may refine `purpose` text
+- **`purpose` is required** where the column exists — writing agents supply it; audit rejects empty, `tbd`, `(sync — add purpose)`
+- Writing agents add or update rows after implementation
+- Sections titled **Example format (generic — not in this repo)** are templates only — not audited exports; delete or replace when you add real rows above
 
 ### Who reads / writes
 
@@ -48,7 +49,7 @@ Read **one** relevant catalog before opening source code.
 | File | Slot | When to read | Primary readers | Primary writers |
 |------|------|--------------|-----------------|-----------------|
 | [UBIQUITOUS_LANGUAGE.md](UBIQUITOUS_LANGUAGE.md) | `context.ubiquitous_language` | **Before any task** — shared domain terms | plan-agent, navigator, all specialists | plan-agent |
-| [test-writing.md](test-writing.md) | `context.test_writing` | How to create/run tests | be/fe-testing-agent, debuggers | humans |
+| [test-writing.md](test-writing.md) | `context.test_writing` | How to create/run tests | be/fe-testing-agent, debuggers | be/fe-testing-agent |
 | [fe-utils.md](fe-utils.md) | `context.fe_utils` | Helpers, hooks, pure functions | fe-dev, fe-debugger, fe-testing-agent | fe-dev |
 | [fe-components.md](fe-components.md) | `context.fe_components` | UI components | fe-dev, fe-design-navigator, fe-testing-agent | fe-dev |
 | [fe-design-system.md](fe-design-system.md) | `context.fe_design_system` | Theme paths, base vs extending | fe-design-navigator, fe-dev | fe-dev |
@@ -59,7 +60,7 @@ Read **one** relevant catalog before opening source code.
 | [be-services.md](be-services.md) | `context.be_services` | Backend service/domain | be-dev, be-debugger | be-dev |
 | [fe-tests.md](fe-tests.md) | `context.fe_tests` | Frontend test catalog | fe-testing-agent, fe-debugger | fe-testing-agent |
 | [be-tests.md](be-tests.md) | `context.be_tests` | Backend test catalog | be-testing-agent, be-debugger | be-testing-agent |
-| [envs.md](envs.md) | `context.envs` | Environment variables | be-dev, fe-dev | humans |
+| [envs.md](envs.md) | `context.envs` | Environment variables | be-dev, fe-dev | be-dev, fe-dev |
 | [types.md](types.md) | `context.types` | Shared types, DTOs | be-dev, fe-dev | be-dev |
 
 ### Column reference (by file)

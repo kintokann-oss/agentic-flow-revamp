@@ -5,17 +5,18 @@
 ## How to use this file
 
 - **Read when:** Adding or changing user-facing copy; fe-design-navigator planning i18n keys
-- **Write when:** fe-dev adds a key to locale JSON — register row here with human `purpose`
+- **Write when:** fe-dev adds a key to locale JSON — register row here with `purpose`
 - **Table columns:**
 
 | Column | Meaning |
 |--------|---------|
-| namespace | i18n namespace (e.g. `app`, `time`, `common`) |
+| namespace | i18n namespace (e.g. `app`, `common`) |
 | key | Key within namespace (nested keys use dot in handoff: `app.toggle.on`) |
 | purpose | Human-readable label role (required for audit) |
 | used_in | Component or file that calls `t(t('key'))` |
 
 - **Add a row:** 1. Add string to `en.json` + stub in other locales 2. Add table row 3. List keys in fe-test-handoff **i18n keys added**
+- Rows under **Example format** are generic placeholders — not keys in this repo's locale files
 
 Locale files live under `apps/web-react/src/i18n/locales/`.
 
@@ -29,13 +30,6 @@ Locale files live under `apps/web-react/src/i18n/locales/`.
 | app | toggle.off | BaseButton label when false | App.tsx |
 | app | flow.on | FlowDialog active label | FlowDialog.tsx |
 | app | flow.off | FlowDialog idle label | FlowDialog.tsx |
-| time | now | Live clock label | TimeDialog.tsx |
-| time | saved | Saved time label | TimeDialog.tsx |
-| time | empty | No saved time placeholder | TimeDialog.tsx |
-| time | loading | Loading saved time | TimeDialog.tsx |
-| time | saveButton | Save current time button | TimeDialog.tsx |
-| time | saveError | Save failure message | TimeDialog.tsx |
-| time | ariaLabel | Time panel aria-label | TimeDialog.tsx |
 | common | toggle.true | BaseButton default true label | BaseButton.tsx |
 | common | toggle.false | BaseButton default false label | BaseButton.tsx |
 
@@ -53,7 +47,17 @@ Locale files live under `apps/web-react/src/i18n/locales/`.
 ```json
 {
   "app": { "preferences": { "title": "..." }, "toggle": { "on": "...", "off": "..." } },
-  "time": { "now": "...", "saveButton": "..." },
   "common": { "toggle": { "true": "...", "false": "..." } }
 }
 ```
+
+---
+
+## Example format (generic — not in this repo)
+
+> Illustrates a second namespace and nested keys. Use your feature name instead of `items`.
+
+| namespace | key | purpose | used_in |
+|-----------|-----|---------|---------|
+| items | list.empty | Empty list placeholder | ItemList.tsx |
+| items | actions.save | Primary save button label | DetailPanel.tsx |

@@ -33,9 +33,15 @@
 | fetchToggleState | GET /api/toggle-state | apps/web-react/src/api/toggleState.test.ts | GET /api/toggle-state |
 | saveToggleState | PUT /api/toggle-state | apps/web-react/src/api/toggleState.test.ts | PUT /api/toggle-state |
 
-## apps/web-react/src/api/savedTime.ts
+---
+
+## Example format (generic — not in this repo)
+
+> Illustrates a second API client module. Not implemented in this repo.
+
+## @profile:paths.frontend_root/src/api/items.ts
 
 | name | purpose | tests | api_calls |
 |------|---------|-------|-----------|
-| fetchSavedTime | GET /api/saved-time | apps/web-react/src/api/savedTime.test.ts | GET /api/saved-time |
-| saveSavedTime | PUT /api/saved-time | apps/web-react/src/api/savedTime.test.ts | PUT /api/saved-time |
+| fetchItems | GET /api/items | …/items.test.ts | GET /api/items |
+| createItem | POST /api/items | …/items.test.ts | POST /api/items |

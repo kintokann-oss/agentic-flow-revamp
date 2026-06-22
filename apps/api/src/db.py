@@ -5,7 +5,6 @@ from pathlib import Path
 DEFAULT_DB_PATH = Path(__file__).resolve().parent.parent / "data" / "app.db"
 MIGRATIONS_DIR = Path(__file__).resolve().parent.parent / "migrations"
 TOGGLE_KEY = "toggle"
-SAVED_TIME_KEY = "saved_time"
 
 
 def get_database_path() -> Path:
