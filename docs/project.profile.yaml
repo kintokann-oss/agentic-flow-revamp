@@ -1,0 +1,325 @@
+# Project profile — edit this file to adapt the agent flow to another repo.
+# Agents reference slots as @profile:paths.backend_root, @profile:context.api_catalog, etc.
+# Orchestrator resolves {paths.*} and slot names when dispatching.
+
+meta:
+  name: agentic-flow-revamp
+  description: PoC monorepo — React + FastAPI (kintokann-oss)
+
+paths:
+  backend_root: apps/api
+  backend_tests: apps/api/tests
+  migrations_root: apps/api/migrations
+  frontend_root: apps/web-react
+  theme_css: apps/web-react/src/styles/theme.css
+  i18n_locales: apps/web-react/src/i18n/locales/
+  working_root: docs/working
+  decisions_root: docs/decisions
+
+stack:
+  backend:
+    label: FastAPI
+    language: python
+    openapi_path: /openapi.json
+    db: sqlite
+  frontend:
+    label: React
+    language: typescript
+
+defaults:
+  persistence: in-memory or mock service unless goal says database
+  auth: out of scope unless goal mentions login or auth
+
+commands:
+  be_test:
+    cwd: apps/api
+    run: python -m pytest tests/ -q
+  fe_test:
+    cwd: apps/web-react
+    run: npm test
+  context_audit:
+    run: python scripts/validate_context_catalog.py --repo . --task {task_id}
+
+context_slots:
+  index: docs/context/INDEX.md
+  ubiquitous_language: docs/context/UBIQUITOUS_LANGUAGE.md
+  test_writing: docs/context/test-writing.md
+  api_catalog: docs/context/api-list.md
+  be_schema: docs/context/be-schema.md
+  be_services: docs/context/be-services.md
+  be_tests: docs/context/be-tests.md
+  types: docs/context/types.md
+  envs: docs/context/envs.md
+  fe_components: docs/context/fe-components.md
+  fe_utils: docs/context/fe-utils.md
+  fe_services: docs/context/fe-services.md
+  fe_design_system: docs/context/fe-design-system.md
+  fe_i18n: docs/context/fe-i18n.md
+  fe_tests: docs/context/fe-tests.md
+
+# Maps handoff export kind (case-insensitive) → context slot
+context_routing:
+  be_sql_handoff:
+    migration: context.be_schema
+    table: context.be_schema
+    db_module: context.be_schema
+  be_test_handoff:
+    route: context.api_catalog
+    service: context.be_services
+    pydantic_model: context.types
+  fe_test_handoff:
+    component: context.fe_components
+    hook: context.fe_utils
+    api client: context.fe_services
+  fe_test_handoff_i18n:
+    section: "i18n keys added"
+    target: context.fe_i18n
+  be_test_handoff_tests:
+    suggested_test_files: context.be_tests
+  fe_test_handoff_tests:
+    suggested_test_files: context.fe_tests
+
+rules_slots:
+  decisions: docs/rules/agent-decisions.md
+  backend: docs/rules/rules-backend.md
+  sql: docs/rules/rules-sql.md
+  frontend: docs/rules/rules-frontend.md
+  testing: docs/rules/rules-testing.md
+  theming: docs/rules/rules-theming.md
+  i18n: docs/rules/rules-i18n.md
+
+artifact_slots:
+  plan: plan.md
+  findings: findings.md
+  contract_summary: contract-summary.md
+  be_sql_handoff: be-sql-handoff.md
+  be_test_handoff: be-test-handoff.md
+  ui_summary: ui-summary.md
+  fe_test_handoff: fe-test-handoff.md
+  test_gap: test-gap.md
+  context_audit: context-audit.md
+  state: state.yaml
+  run_log: run-log.md
+
+templates:
+  plan: docs/working/plan.template.md
+  findings: docs/working/findings.template.md
+  stage_contract: docs/working/stage-contract.template.md
+  state: docs/working/state.template.yaml
+  run_log: docs/working/run-log.template.md
+  contract_summary: docs/working/contract-summary.template.md
+  be_sql_handoff: docs/working/be-sql-handoff.template.md
+  be_test_handoff: docs/working/be-test-handoff.template.md
+  ui_summary: docs/working/ui-summary.template.md
+  fe_test_handoff: docs/working/fe-test-handoff.template.md
+  test_gap: docs/working/test-gap.template.md
+  context_audit: docs/working/context-audit.template.md
+  adr: docs/decisions/adr.template.md
+
+agent_bindings:
+  plan-agent:
+    scope_glob: null
+    forbidden_globs: []
+    reads:
+      - rules.decisions
+      - context.ubiquitous_language
+      - context.index
+      - artifact.run_log
+    writes:
+      - artifact.plan
+    context_writes:
+      - context.ubiquitous_language
+
+  orchestrator:
+    scope_glob: null
+    forbidden_globs: []
+    reads:
+      - rules.decisions
+      - artifact.plan
+      - artifact.state
+      - artifact.run_log
+    writes:
+      - artifact.state
+      - artifact.run_log
+    context_writes: []
+
+  navigator:
+    scope_glob: null
+    forbidden_globs:
+      - "{paths.backend_root}/**"
+      - "{paths.frontend_root}/**"
+    reads:
+      - rules.decisions
+      - context.index
+      - context.ubiquitous_language
+      - artifact.plan
+    writes:
+      - artifact.findings
+    context_writes: []
+
+  fe-design-navigator:
+    scope_glob: null
+    forbidden_globs:
+      - "{paths.backend_root}/**"
+      - "{paths.frontend_root}/**"
+    reads:
+      - rules.theming
+      - rules.i18n
+      - context.fe_design_system
+      - context.fe_i18n
+      - artifact.findings
+      - artifact.plan
+    writes:
+      - artifact.findings
+    context_writes: []
+
+  be-sql-agent:
+    scope_glob: "{paths.backend_root}/**"
+    forbidden_globs:
+      - "{paths.backend_root}/src/routes/**"
+      - "{paths.backend_root}/src/services/**"
+      - "{paths.frontend_root}/**"
+    reads:
+      - rules.decisions
+      - rules.sql
+      - rules.backend
+      - context.be_schema
+      - context.envs
+      - artifact.findings
+      - artifact.plan
+    writes:
+      - artifact.be_sql_handoff
+    context_writes:
+      - context.be_schema
+
+  be-dev:
+    scope_glob: "{paths.backend_root}/**"
+    forbidden_globs:
+      - "{paths.frontend_root}/**"
+      - "{paths.migrations_root}/**"
+      - "{paths.backend_root}/src/db.py"
+    reads:
+      - rules.decisions
+      - rules.backend
+      - context.api_catalog
+      - context.be_schema
+      - context.be_services
+      - context.types
+      - context.envs
+      - artifact.findings
+      - artifact.be_sql_handoff
+      - artifact.plan
+    writes:
+      - artifact.be_test_handoff
+      - artifact.contract_summary
+    context_writes:
+      - context.api_catalog
+      - context.be_services
+      - context.types
+
+  be-testing-agent:
+    scope_glob: "{paths.backend_tests}/**"
+    forbidden_globs:
+      - "{paths.frontend_root}/**"
+    reads:
+      - rules.testing
+      - context.test_writing
+      - context.be_tests
+      - context.api_catalog
+      - artifact.be_test_handoff
+      - artifact.test_gap
+    writes: []
+    context_writes:
+      - context.be_tests
+
+  fe-dev:
+    scope_glob: "{paths.frontend_root}/**"
+    forbidden_globs:
+      - "{paths.backend_root}/**"
+    reads:
+      - rules.decisions
+      - rules.frontend
+      - rules.theming
+      - rules.i18n
+      - context.fe_design_system
+      - context.fe_i18n
+      - context.fe_components
+      - context.fe_utils
+      - context.fe_services
+      - context.types
+      - context.envs
+      - artifact.findings
+      - artifact.contract_summary
+    writes:
+      - artifact.ui_summary
+      - artifact.fe_test_handoff
+    context_writes:
+      - context.fe_components
+      - context.fe_utils
+      - context.fe_services
+      - context.fe_design_system
+      - context.fe_i18n
+
+  fe-testing-agent:
+    scope_glob: "{paths.frontend_root}/**"
+    forbidden_globs:
+      - "{paths.backend_root}/**"
+    reads:
+      - rules.testing
+      - rules.i18n
+      - context.test_writing
+      - context.fe_tests
+      - context.fe_i18n
+      - artifact.fe_test_handoff
+      - artifact.test_gap
+    writes: []
+    context_writes:
+      - context.fe_tests
+
+  be-debugger:
+    scope_glob: "{paths.backend_root}/**"
+    forbidden_globs:
+      - "{paths.frontend_root}/**"
+    reads:
+      - rules.testing
+      - context.test_writing
+      - context.be_tests
+      - context.api_catalog
+      - artifact.findings
+    writes:
+      - artifact.test_gap
+    context_writes: []
+
+  fe-debugger:
+    scope_glob: "{paths.frontend_root}/**"
+    forbidden_globs:
+      - "{paths.backend_root}/**"
+    reads:
+      - rules.testing
+      - context.test_writing
+      - context.fe_tests
+      - context.fe_components
+      - context.fe_utils
+      - context.fe_services
+      - artifact.findings
+    writes:
+      - artifact.test_gap
+    context_writes: []
+
+  flow-end-validator:
+    scope_glob: null
+    forbidden_globs:
+      - "{paths.backend_root}/**"
+      - "{paths.frontend_root}/**"
+    reads:
+      - context.index
+      - artifact.plan
+      - artifact.state
+      - artifact.run_log
+      - artifact.be_test_handoff
+      - artifact.fe_test_handoff
+    writes:
+      - artifact.state
+      - artifact.run_log
+      - artifact.context_audit
+    context_writes: []

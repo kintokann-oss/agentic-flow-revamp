@@ -1,0 +1,38 @@
+# Orchestrator state — copy to docs/working/<TASK-ID>/state.yaml
+
+# Why this file exists:
+# Multi-step tasks span many sessions. state.yaml is the orchestrator's save game —
+# current step, gate approval, blockers, staleness, per-step status. Humans use run-log.md.
+# See: docs/working/ARTIFACTS.md#stateyaml
+
+task_id: TASK-XXX
+goal: ""                    # one line from user
+phase: planning             # planning | executing | awaiting_human | done | blocked
+current_step: 0
+plan_file: docs/working/TASK-XXX/plan.md
+created_at: ""
+updated_at: ""
+
+fast_mode: false            # true → gate_tier: auto may skip human pause (see agent-decisions.md)
+
+steps:
+  - id: 1
+    agent: navigator
+    status: pending         # pending | in_progress | done | blocked | skipped | stale
+    gate_tier: anchor       # anchor | light | auto — copy from plan.md
+    verify_against: plan.md
+    inputs:                 # Layer 3 + Layer 4 files this step reads (orchestrator fills from plan)
+      - docs/working/TASK-XXX/plan.md
+    outputs:
+      - docs/working/TASK-XXX/findings.md
+    stale: false            # true → upstream input changed after this step was done; re-run required
+    gate_status: pending    # pending | approved | revision_requested
+    started_at: ""
+    completed_at: ""
+    notes: ""
+
+  # one entry per row in plan.md — orchestrator fills gate_tier, inputs, outputs on first run
+
+blocker: ""                 # set when phase: blocked
+awaiting_human: false       # true = posted checkpoint; waiting for user reply
+human_gate: true            # default ON — tiered pauses per gate_tier (see orchestrator.agent.md)
