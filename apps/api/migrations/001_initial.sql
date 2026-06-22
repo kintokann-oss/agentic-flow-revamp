@@ -1,6 +1,2 @@
-CREATE TABLE IF NOT EXISTS app_state (
-    key TEXT PRIMARY KEY,
-    value INTEGER NOT NULL CHECK (value IN (0, 1))
-);
-
-INSERT OR IGNORE INTO app_state (key, value) VALUES ('toggle', 0);
+-- Schema migrations are added by be-sql-agent per task.
+-- This file is a placeholder so init_db() can apply an empty migration set.

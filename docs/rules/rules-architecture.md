@@ -2,25 +2,26 @@
 
 **Slot:** `rules.architecture` · **Terms:** [UBIQUITOUS_LANGUAGE.md](../context/UBIQUITOUS_LANGUAGE.md)
 
-## What the app does
+## What this repo ships today
 
-One page (**App**). The user sets **Toggle state** on or off with **BaseButton**. **Toggle state** is stored on the server (`GET`/`PUT` `/api/toggle-state`).
+A **minimal skeleton** — not a product demo. The sample app exists only to run the agent workflow against real paths:
 
-| Toggle state | UI |
-|--------------|-----|
-| **On** | **Flow background** uses the active gradient; **FlowDialog** uses active styling. |
-| **Off** | Idle gradient and idle **FlowDialog** styling. |
+| Layer | Shipped today | Added per task by agents |
+|-------|---------------|---------------------------|
+| Backend | Health + info routes, connection module, empty migration placeholder | Routes, services, migrations, tables |
+| Frontend | Root **App** shell + info API client | Components, hooks, clients, i18n keys |
+| Store | Connection helper only — **no feature tables yet** | be-sql-agent adds DDL |
 
-No **extending components** are shipped yet. When added, register them in [fe-design-system.md](../context/fe-design-system.md) with `extends_base` (see generic **DetailPanel** example there).
+Feature examples in context catalogs (`Item`, `DetailPanel`, `/api/items`, …) are **generic templates** — not implemented until a task adds them.
 
 ## Boundaries
 
 | Layer | Profile path | Responsibility |
 |-------|--------------|----------------|
-| Client | `@profile:paths.frontend_root` | **App**, components, hooks, API clients, i18n, theme tokens |
+| Client | `@profile:paths.frontend_root` | Pages, components, hooks, API clients, i18n, theme tokens |
 | Server | `@profile:paths.backend_root` | HTTP routes, domain services |
-| Schema | `@profile:paths.migrations_root`, `src/db.py` | DDL, seeds, connection helpers (**be-sql-agent**) |
-| Store | SQLite file (`DATABASE_URL`) | `app_state` |
+| Schema | `@profile:paths.migrations_root`, connection module | DDL, seeds, init (**be-sql-agent**) |
+| Store | From `@profile:stack.backend.db` + `DATABASE_URL` | Tables added by migrations |
 
 Client calls server over HTTP JSON. Server reads and writes the store through services only.
 
@@ -28,64 +29,55 @@ Client calls server over HTTP JSON. Server reads and writes the store through se
 
 ```
 @profile:paths.backend_root/
-├── migrations/     # be-sql-agent
+├── migrations/     # be-sql-agent — sorted SQL files
 ├── src/
-│   ├── db.py       # get_connection, init_db, key constants
-│   ├── main.py     # app entry, mount routers, init_db on startup
-│   ├── routes/     # be-dev — parse, call service, return model
-│   └── services/   # be-dev — parameterized SQL only
+│   ├── db.py       # connection + init_db (be-sql-agent)
+│   ├── main.py     # app entry, mount routers
+│   ├── routes/     # be-dev — thin handlers
+│   └── services/   # be-dev — domain + queries
 └── tests/          # be-testing-agent
 ```
 
-| Module | Role |
-|--------|------|
+| Module (skeleton) | Role |
+|-------------------|------|
 | `routes/health.py` | Liveness |
 | `routes/info.py` | Name/version for client header |
-| `routes/toggle_state.py` | **Toggle state** API |
-| `services/toggle_state.py` | `app_state` row for toggle key |
 
 **Rule:** routes call services; services run SQL. No SQL in routes; no HTTP types in services.
 
-Catalogs: [be-schema.md](../context/be-schema.md) · [api-list.md](../context/api-list.md) (see **Example format** sections for generic CRUD templates).
+Catalogs: [be-schema.md](../context/be-schema.md) · [api-list.md](../context/api-list.md)
 
 ## Frontend layout
 
 ```
 @profile:paths.frontend_root/src/
-├── App.tsx           # shell, flow background class, hosts controls
+├── App.tsx           # root shell (skeleton)
 ├── api/              # one module per backend resource
-├── hooks/            # useToggleState
-├── components/
-│   ├── BaseButton/   # base — boolean control
-│   └── FlowDialog/   # base — flow on/off dialog shell
-├── styles/theme.css
+├── components/       # fe-dev — Base* and extending tiers
+├── hooks/            # fe-dev
+├── styles/theme.css  # tokens only file with raw colors
 └── i18n/locales/
 ```
 
-| Piece | Role |
-|-------|------|
-| **App** | Applies `flow-active` / `flow-idle` shell class from toggle |
-| **BaseButton** | Sets **Toggle state** via `useToggleState` |
-| **FlowDialog** | Surface reflects toggle state |
-| **useToggleState** | Load on mount; PUT on change |
+| Piece (skeleton) | Role |
+|------------------|------|
+| **App** | Root page — loads info client on mount |
+| **fetchInfo** | GET `/api/info` client |
 
-Tiers and tokens: [fe-design-system.md](../context/fe-design-system.md)
+Design tiers: [fe-design-system.md](../context/fe-design-system.md)
 
-## Persistence (current)
+## Persistence (skeleton)
 
-| Table | Key | Value |
-|-------|-----|-------|
-| `app_state` | `toggle` | `0` or `1` |
+No feature tables in the initial migration placeholder. be-sql-agent adds migrations per task; document each in [be-schema.md](../context/be-schema.md).
 
 ## Out of scope
 
 | Topic | Policy |
 |-------|--------|
 | Auth | `defaults.auth` in profile |
-| Multi-tenant data | Single global toggle |
 | Deploy / CI | Not in task artifacts |
-| E2E | [rules-testing.md](rules-testing.md) |
+| E2E | [rules-testing.md](rules-testing.md) unless plan adds it |
 
 ## When to edit
 
-Update when module boundaries or store shape change. Feature-level detail stays in context catalogs and **UBIQUITOUS_LANGUAGE**.
+Update when module boundaries or store shape change. Per-feature detail stays in context catalogs and **UBIQUITOUS_LANGUAGE**.

@@ -4,49 +4,31 @@
 
 ## How to use this file
 
-- **Read when:** Checking existing UI before adding or extending components
-- **Write when:** fe-dev exports a new or changed React component
-- **Section heading:** `## apps/web-react/src/components/<Name>/<Name>.tsx` or page path like `App.tsx`
-- **Columns:**
-
-| Column | Meaning |
-|--------|---------|
-| name | Exported component name |
-| purpose | Human-readable UI role (required for audit) |
-| tests | Colocated test file path |
-| depends_on | Hooks, child components, or API clients used |
-
-- **Add a row:** 1. Implement component 2. Add section + row 3. List in fe-test-handoff with kind `component`
-- **Example rows** below `---` under **Example format** show table shape only — not shipped code
+- **Section heading:** `## <repo-relative-path>` under `@profile:paths.frontend_root`
+- **Skeleton (shipped)** documents minimal App; **Example format** shows component rows for future features
 
 ---
 
-## apps/web-react/src/App.tsx
+## Skeleton (shipped)
+
+## @profile:paths.frontend_root/src/App.tsx
 
 | name | purpose | tests | depends_on |
 |------|---------|-------|------------|
-| App | Root shell; flow background + FlowDialog + BaseButton | apps/web-react/src/App.test.tsx | BaseButton, FlowDialog, fetchInfo, useToggleState |
-
-## apps/web-react/src/components/FlowDialog/FlowDialog.tsx
-
-| name | purpose | tests | depends_on |
-|------|---------|-------|------------|
-| FlowDialog | Status dialog; reflects true/false flow state | apps/web-react/src/components/FlowDialog/FlowDialog.test.tsx |  |
-
-## apps/web-react/src/components/BaseButton/BaseButton.tsx
-
-| name | purpose | tests | depends_on |
-|------|---------|-------|------------|
-| BaseButton | Foundation true/false button — app-wide base control | apps/web-react/src/components/BaseButton/BaseButton.test.tsx |  |
+| App | Root shell; loads backend info on mount | …/App.test.tsx | fetchInfo |
 
 ---
 
 ## Example format (generic — not in this repo)
 
-> Illustrates an **extending** component section. Replace paths/names when you implement a real feature.
-
 ## @profile:paths.frontend_root/src/components/DetailPanel/DetailPanel.tsx
 
 | name | purpose | tests | depends_on |
 |------|---------|-------|------------|
-| DetailPanel | Nested panel inside a base dialog shell | …/DetailPanel.test.tsx | useItemList |
+| DetailPanel | Nested panel inside a base surface | …/DetailPanel.test.tsx | useItemList |
+
+## @profile:paths.frontend_root/src/components/ItemList/ItemList.tsx
+
+| name | purpose | tests | depends_on |
+|------|---------|-------|------------|
+| ItemList | Renders a list of items from API | …/ItemList.test.tsx | useItemList |

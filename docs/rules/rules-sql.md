@@ -37,7 +37,7 @@
 ## Testing
 
 - Tests set `DATABASE_URL` to a temp file — see [test-writing.md](../context/test-writing.md)
-- Schema tests live in `tests/test_db.py` — be-sql-agent updates when migrations change
+- Schema contract tests live under `@profile:paths.backend_tests/` per project layout — be-sql-agent updates when migrations change
 - be-sql-agent does **not** write route/service tests — hand off to be-dev → be-testing-agent
 
 ## Catalog duty

@@ -16,7 +16,8 @@ Read **one** relevant catalog before opening source code.
 - One row per export (route, service, component, hook, test file, i18n key, etc.)
 - **`purpose` is required** where the column exists — writing agents supply it; audit rejects empty, `tbd`, `(sync — add purpose)`
 - Writing agents add or update rows after implementation
-- Sections titled **Example format (generic — not in this repo)** are templates only — not audited exports; delete or replace when you add real rows above
+- **Skeleton (shipped)** sections document the minimal sample app only (health, info, App shell)
+- **Example format (generic — not in this repo)** sections are templates — not audited exports until implemented
 
 ### Who reads / writes
 

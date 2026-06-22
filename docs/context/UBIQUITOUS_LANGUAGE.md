@@ -1,52 +1,46 @@
 # Ubiquitous language
 
-> **Shared vocabulary** for this repo — used by you, agents, and context catalogs.  
-> **Maintained by:** plan-agent (grill-with-docs) adds or sharpens terms each task; dev agents use these names in code and catalog `purpose` rows.  
-> Inspired by [grill-with-docs](https://www.aihero.dev/grill-with-docs) / domain-driven design ubiquitous language.
+> **Shared vocabulary** for this repo — used by agents and context catalogs.  
+> **Maintained by:** plan-agent adds or sharpens terms each task; dev agents use these names in code and catalog `purpose` rows.
 
-**Format:** `**Term**:` definition. Link to catalog or code when grounded.
+**Format:** `**Term**:` definition. Link to [INDEX.md](INDEX.md) catalogs when grounded.
 
 ## How to use this file
 
-- **Read when:** Before any task — align vocabulary with plan-agent, navigator, and catalog `purpose` text
+- **Read when:** Before any task — align vocabulary with plan-agent and catalog `purpose` text
 - **Write when:** plan-agent grills a new task — add or sharpen terms before writing `plan.md`
-- **Do not** duplicate full catalog rows here — link to [INDEX.md](INDEX.md) catalogs instead
+- **Do not** duplicate full catalog rows here — link to catalogs instead
+- Terms marked *(example)* are generic placeholders for plans — not shipped code
 
 ---
 
 ## Application shell
 
-**App:** Root React page at `apps/web-react/src/App.tsx` — layout shell, flow background, hosts dialogs and controls.
-
-**Flow background:** Full-page gradient driven by toggle state (`--gradient-flow-active` / `--gradient-flow-idle`).
+**App:** Root page at `@profile:paths.frontend_root/src/App.tsx` — layout shell for the skeleton; hosts feature UI as tasks add it.
 
 ---
 
 ## UI components (tiers)
 
-**Base component:** Foundation primitive in `components/Base<Name>/`. Required before an extending component on the same primitive. Catalog: [fe-design-system.md](fe-design-system.md) base table.
+**Base component:** Foundation primitive in `components/Base<Name>/`. Required before an extending component on the same primitive. Catalog: [fe-design-system.md](fe-design-system.md).
 
 **Extending component:** Specialized UI built on a registered base (`extends_base`). Catalog: fe-design-system extending table.
 
-**BaseButton:** Base true/false control — app-wide toggle/button primitive.
+**BaseCard *(example)*:** Generic base surface primitive — use your domain name in plans.
 
-**FlowDialog:** Base status dialog shell reflecting flow on/off surface state.
-
-**DetailPanel *(example term)*:** Generic name for an **extending component** nested inside a base dialog — use your domain name in plans and catalogs; not shipped in this repo.
+**DetailPanel *(example)*:** Generic extending component nested inside a base shell.
 
 ---
 
 ## Backend
 
-**Route handler:** FastAPI function in `apps/api/src/routes/` (catalog: [api-list.md](api-list.md)).
+**Route handler:** HTTP handler in `@profile:paths.backend_root/src/routes/` (catalog: [api-list.md](api-list.md)).
 
-**Service:** Domain function in `apps/api/src/services/` (catalog: [be-services.md](be-services.md)).
+**Service:** Domain function in `@profile:paths.backend_root/src/services/` (catalog: [be-services.md](be-services.md)).
 
-**Migration:** Versioned SQL file under `apps/api/migrations/` — owned by **be-sql-agent** (catalog: [be-schema.md](be-schema.md)).
+**Migration:** Versioned SQL under `@profile:paths.migrations_root/` — owned by **be-sql-agent** (catalog: [be-schema.md](be-schema.md)).
 
-**Toggle state:** Persisted boolean (`GET`/`PUT` `/api/toggle-state`); stored in SQLite `app_state`.
-
-**Item *(example term)*:** Generic domain entity for list/CRUD features — placeholder vocabulary for plans; no `/api/items` in this repo yet.
+**Item *(example)*:** Generic domain entity for list/CRUD features — placeholder for plans and catalog examples.
 
 ---
 
@@ -64,16 +58,14 @@
 
 ## Relationships
 
-- **App** hosts **FlowDialog** and **BaseButton**.
 - **Extending component** → exactly one **Base component** via `extends_base`.
 - **Route handler** may call **Service** functions; catalog rows must stay aligned.
+- Skeleton **App** loads **fetchInfo** only until fe-dev adds feature UI.
 
 ---
 
 ## Adding terms (plan-agent)
 
-When grilling a new task:
-
-1. Check whether the user’s words match an existing **Term** — challenge collisions (e.g. two meanings of “dialog”).
-2. Add new terms here with precise definitions before writing `plan.md`.
-3. If a decision is surprising or hard to reverse, add an [ADR](../decisions/INDEX.md) and link it from the term or plan.
+1. Check whether the user's words match an existing **Term** — challenge collisions.
+2. Add new terms with precise definitions before writing `plan.md`.
+3. If a decision is hard to reverse, add an [ADR](../decisions/INDEX.md) and link it from the term or plan.

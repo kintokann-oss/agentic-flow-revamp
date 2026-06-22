@@ -1,28 +1,8 @@
 {
   "app": {
-    "preferences": {
-      "title": "Preferences"
-    },
-    "status": {
-      "title": "Status"
-    },
+    "title": "App",
     "errors": {
-      "serverUnreachable": "Could not reach the server.",
-      "saveFailed": "Could not save. Try again."
-    },
-    "toggle": {
-      "on": "On",
-      "off": "Off"
-    },
-    "flow": {
-      "on": "On",
-      "off": "Off"
-    }
-  },
-  "common": {
-    "toggle": {
-      "true": "True",
-      "false": "False"
+      "serverUnreachable": "Could not reach the server."
     }
   }
 }
