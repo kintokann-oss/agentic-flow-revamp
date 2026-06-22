@@ -1,16 +1,14 @@
-# agentic-flow-revamp
+# Agentic flow
 
-Multi-agent workflow with generic agents, a project profile, and an app under `apps/`.
-
-Repository: [kintokann-oss/agentic-flow-revamp](https://github.com/kintokann-oss/agentic-flow-revamp)
+Multi-agent delivery workflow: generic specialist agents, a project profile, and file-based handoffs between steps.
 
 ---
 
 ## What this is
 
-Specialist agents run in sequence. Each step reads and writes files under `docs/working/<TASK-ID>/`. You approve the plan and checkpoints; agents do not share context in chat.
+You state a goal. Agents align on vocabulary, produce a reviewed plan, then run in sequence. Each agent reads and writes markdown/YAML under `docs/working/<TASK-ID>/`. You approve the plan and checkpoints at tiered gates.
 
-Paths, commands, and stack labels live in [`docs/project.profile.yaml`](docs/project.profile.yaml). Agent roles stay in [`.github/agents/`](.github/agents/) and use `@profile:` slots — not hardcoded paths.
+Application code, stack, and paths are **not** in agent files. They live in [`docs/project.profile.yaml`](docs/project.profile.yaml). Agents reference slots as `@profile:paths.backend_root`, `@profile:rules.backend`, `@profile:artifact.plan`, etc. The orchestrator resolves slots when dispatching.
 
 ---
 
@@ -18,16 +16,15 @@ Paths, commands, and stack labels live in [`docs/project.profile.yaml`](docs/pro
 
 | Piece | Location |
 |-------|----------|
-| Agents | [`.github/agents/`](.github/agents/) |
-| Profile (paths, bindings, commands) | [`docs/project.profile.yaml`](docs/project.profile.yaml) |
-| Orchestration | [`docs/rules/agent-decisions.md`](docs/rules/agent-decisions.md) |
-| Coding rules | [`docs/rules/`](docs/rules/) |
-| Export catalogs | [`docs/context/`](docs/context/) |
-| Task artifacts | [`docs/working/<TASK-ID>/`](docs/working/) |
-| Glossary | [`docs/context/UBIQUITOUS_LANGUAGE.md`](docs/context/UBIQUITOUS_LANGUAGE.md) |
-| Handoff audit | [`scripts/validate_context_catalog.py`](scripts/validate_context_catalog.py) |
-
-Roster and step order: [`docs/AGENT-REGISTRY.md`](docs/AGENT-REGISTRY.md) · Artifacts: [`docs/working/ARTIFACTS.md`](docs/working/ARTIFACTS.md)
+| Agent roles | [`.github/agents/`](.github/agents/) |
+| Profile (paths, commands, bindings) | [`docs/project.profile.yaml`](docs/project.profile.yaml) |
+| Orchestration policy | [`docs/rules/agent-decisions.md`](docs/rules/agent-decisions.md) |
+| Project rules | [`docs/rules/`](docs/rules/) — coding, architecture, testing, … |
+| Export catalogs | [`docs/context/`](docs/context/) — durable inventory per task |
+| Task run | [`docs/working/<TASK-ID>/`](docs/working/) — plan, findings, handoffs, state |
+| Agent roster | [`docs/AGENT-REGISTRY.md`](docs/AGENT-REGISTRY.md) |
+| Artifact guide | [`docs/working/ARTIFACTS.md`](docs/working/ARTIFACTS.md) |
+| Catalog audit script | [`scripts/validate_context_catalog.py`](scripts/validate_context_catalog.py) |
 
 ---
 
@@ -35,30 +32,48 @@ Roster and step order: [`docs/AGENT-REGISTRY.md`](docs/AGENT-REGISTRY.md) · Art
 
 | Layer | Location | Role |
 |-------|----------|------|
-| 1 | `.github/agents/` | Generic agent roles |
-| 2 | `docs/rules/agent-decisions.md` | Gates, reuse, routing |
-| 3 | `project.profile.yaml`, `docs/rules/`, `docs/context/` | Project-specific config and catalogs |
-| 4 | `docs/working/<TASK-ID>/` | One task’s plan, handoffs, state |
+| 1 | `.github/agents/` | Generic roles (Reads / Steps / Writes via `@profile:`) |
+| 2 | `docs/rules/agent-decisions.md` | Step order, gates, reuse, staleness |
+| 3 | `project.profile.yaml` + `docs/rules/` + `docs/context/` | **Your project** — paths, rules, catalogs, glossary |
+| 4 | `docs/working/<TASK-ID>/` | **One task** — plan, handoffs, audit trail |
+
+Layer 1–2 port unchanged. Layer 3–4 are replaced or extended per product.
 
 ---
 
-## App under `apps/`
+## Default task flow
 
-Single page: user toggles **Toggle state** on/off; UI and **FlowDialog** follow that state; optional **Saved time** inside **FlowDialog**. Module layout: [`docs/rules/rules-architecture.md`](docs/rules/rules-architecture.md). Run/test commands: `commands.*` in the profile.
+1. **plan-agent** — grill, glossary, `plan.md` → you **proceed**
+2. **orchestrator** — steps from plan, `state.yaml`, `run-log.md`
+3. **navigator** — reuse/create → `findings.md`
+4. Specialists per plan (schema, backend, backend tests, design, frontend, frontend tests, …)
+5. **flow-end-validator** — catalog audit + test commands + sign-off
 
----
-
-## Start a task
-
-1. **plan-agent** → `docs/working/TASK-001/plan.md`
-2. You reply **proceed**
-3. **orchestrator** runs plan steps
-4. **flow-end-validator** — catalog audit + tests + sign-off
-
-Index: [`docs/working/INDEX.md`](docs/working/INDEX.md)
+Details and agent list: [`docs/AGENT-REGISTRY.md`](docs/AGENT-REGISTRY.md). Task index: [`docs/working/INDEX.md`](docs/working/INDEX.md).
 
 ---
 
-## Port to another repo
+## Adopt in another repository
 
-Copy agents and `docs/`. Edit `project.profile.yaml`, rules, and context for the new product. Keep `.github/agents/` unchanged.
+1. Copy `.github/agents/` and `docs/` layout (rules templates, working templates, agent-decisions).
+2. Author [`docs/project.profile.yaml`](docs/project.profile.yaml) — paths, stack, `agent_bindings`, `context_slots`.
+3. Fill `docs/rules/` and `docs/context/` for your product (including `rules-architecture.md` and `UBIQUITOUS_LANGUAGE.md` if used).
+4. Leave agent markdown unchanged; only profile and Layer 3 docs vary by project.
+
+Run and test commands are defined under `commands.*` in the profile — not in the README.
+
+---
+
+## `@profile:` slots
+
+Placeholders in agent and template files. Resolved from [`docs/project.profile.yaml`](docs/project.profile.yaml) at dispatch time.
+
+| Example slot | Typical use |
+|--------------|-------------|
+| `@profile:paths.backend_root` | Backend source root |
+| `@profile:rules.backend` | Backend coding rules |
+| `@profile:context.api_catalog` | Route/export catalog |
+| `@profile:artifact.be_test_handoff` | Task handoff file path |
+| `@profile:commands.be_test` | Test command for sign-off |
+
+Full binding matrix: profile `agent_bindings` and [`docs/AGENT-REGISTRY.md`](docs/AGENT-REGISTRY.md).

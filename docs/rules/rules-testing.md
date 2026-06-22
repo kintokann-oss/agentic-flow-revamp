@@ -11,10 +11,9 @@ Commands: [`project.profile.yaml`](../project.profile.yaml)
 |--------|------------------------|
 | `components/Foo/Foo.tsx` | `components/Foo/Foo.test.tsx` |
 | `hooks/useBar.ts` | `hooks/useBar.test.ts` |
-| `api/toggleState.ts` | `api/toggleState.test.ts` |
-| `App.tsx` | `App.test.tsx` |
-| `routes/toggle_state.py` | `tests/test_toggle_state.py` |
-| `services/toggle_state.py` | covered via route tests or `tests/test_*.py` |
+| `api/client.ts` | `api/client.test.ts` |
+| `routes/items.py` | `tests/test_items.py` |
+| `services/items.py` | covered via route tests or `tests/test_*.py` |
 
 **Do not** use `__tests__/`, repo-root test mirrors, or distant folders for per-symbol tests.
 

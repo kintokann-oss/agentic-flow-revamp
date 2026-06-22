@@ -1,6 +1,6 @@
-# Frontend rules (React)
+# Frontend rules
 
-**Scope:** `@profile:paths.frontend_root/**` · **Catalogs:** [fe-components.md](../context/fe-components.md), [fe-utils.md](../context/fe-utils.md), [fe-services.md](../context/fe-services.md), [fe-design-system.md](../context/fe-design-system.md)
+**Scope:** `@profile:paths.frontend_root/**` · **Stack:** `@profile:stack.frontend`
 
 ## File layout
 

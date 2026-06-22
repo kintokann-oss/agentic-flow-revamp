@@ -29,23 +29,7 @@ Colocated unit/integration tests only. No E2E unless plan adds it. Stack: `@prof
 
 ## How to run
 
-See `@profile:commands.fe_test` and `@profile:commands.be_test` in [`project.profile.yaml`](../project.profile.yaml).
-
-### Frontend
-
-```powershell
-cd apps/web-react
-npm test
-npx vitest run path/to/File.test.tsx
-```
-
-### Backend
-
-```powershell
-cd apps/api
-python -m pytest tests/ -q
-python -m pytest tests/test_toggle_state.py -q
-```
+See `@profile:commands.fe_test` and `@profile:commands.be_test` in [`project.profile.yaml`](../project.profile.yaml). Run from the `cwd` given in each command block.
 
 ### After adding tests
 
@@ -73,7 +57,7 @@ python -m pytest tests/test_toggle_state.py -q
 | Kind | Test |
 |------|------|
 | API client | fetch/PUT URL/body; error on non-ok |
-| Hook | initial load, persist/toggle, error rollback |
+| Hook | initial load, persist/update, error rollback |
 | Component | render states, user events, aria/testids |
 | Route | status code, JSON body, persistence |
 | i18n UI | `i18n.t('namespace:key')` — not hardcoded strings |
@@ -92,25 +76,27 @@ Add row in `@profile:context.be_tests` or `@profile:context.fe_tests` for new te
 
 ---
 
-## FE patterns (Vitest + RTL)
+## FE patterns
+
+Use `@profile:stack.frontend` test tools from the profile. Examples below use placeholder names.
 
 ### API client
 
 ```typescript
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { fetchToggleState } from './toggleState'
+import { fetchItems } from './items'
 
 afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-describe('toggleState API', () => {
-  it('fetchToggleState returns JSON', async () => {
+describe('items API', () => {
+  it('fetchItems returns JSON', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
       ok: true,
-      json: async () => ({ value: false }),
+      json: async () => ({ items: [] }),
     }))
-    await expect(fetchToggleState()).resolves.toEqual({ value: false })
+    await expect(fetchItems()).resolves.toEqual({ items: [] })
   })
 })
 ```
@@ -120,21 +106,21 @@ describe('toggleState API', () => {
 ```typescript
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { vi } from 'vitest'
-import * as toggleApi from '../api/toggleState'
-import { useToggleState } from './useToggleState'
+import * as itemsApi from '../api/items'
+import { useItems } from './useItems'
 
-it('persists toggled value', async () => {
-  vi.spyOn(toggleApi, 'fetchToggleState').mockResolvedValue({ value: false })
-  vi.spyOn(toggleApi, 'saveToggleState').mockResolvedValue({ value: true })
+it('persists updated value', async () => {
+  vi.spyOn(itemsApi, 'fetchItems').mockResolvedValue({ items: [] })
+  vi.spyOn(itemsApi, 'saveItem').mockResolvedValue({ id: '1' })
 
-  const { result } = renderHook(() => useToggleState())
+  const { result } = renderHook(() => useItems())
   await waitFor(() => expect(result.current.loading).toBe(false))
 
   await act(async () => {
-    await result.current.toggle()
+    await result.current.save({ id: '1' })
   })
 
-  expect(toggleApi.saveToggleState).toHaveBeenCalledWith(true)
+  expect(itemsApi.saveItem).toHaveBeenCalledWith({ id: '1' })
 })
 ```
 
@@ -142,13 +128,12 @@ it('persists toggled value', async () => {
 
 ```typescript
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import i18n from '../../i18n'
-import { BaseButton } from './BaseButton'
+import { PrimaryAction } from './PrimaryAction'
 
-it('renders true label when value is true', () => {
-  render(<BaseButton value={true} onChange={vi.fn()} />)
-  expect(screen.getByText(i18n.t('common:toggle.true'))).toBeInTheDocument()
+it('renders label from locale', () => {
+  render(<PrimaryAction onClick={vi.fn()} />)
+  expect(screen.getByText(i18n.t('app:actions.save'))).toBeInTheDocument()
 })
 ```
 
@@ -160,9 +145,11 @@ it('renders true label when value is true', () => {
 
 ---
 
-## BE patterns (pytest)
+## BE patterns
 
-### Route + DB (isolated temp DB)
+Use `@profile:stack.backend` test tools from the profile.
+
+### Route + isolated DB
 
 ```python
 @pytest.fixture
@@ -173,10 +160,10 @@ def client(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     with TestClient(app) as test_client:
         yield test_client
 
-def test_get_toggle_state_defaults_false(client: TestClient):
-    response = client.get("/api/toggle-state")
+def test_list_items_empty(client: TestClient):
+    response = client.get("/api/items")
     assert response.status_code == 200
-    assert response.json() == {"value": False}
+    assert response.json() == {"items": []}
 ```
 
 Colocate: `tests/test_<module>.py` covers routes/services in scope.
@@ -196,7 +183,7 @@ Colocate: `tests/test_<module>.py` covers routes/services in scope.
 
 | Avoid | Do instead |
 |-------|------------|
-| Hardcoded locale strings in FE assertions | `i18n.t('app:toggle.on')` |
+| Hardcoded locale strings in FE assertions | `i18n.t('namespace:key')` |
 | Tests in `__tests__/` or distant folders | Colocate next to source |
 | One test covering many unrelated flows | One behavior per test |
 | Skipping test-gap tests | Implement every row |

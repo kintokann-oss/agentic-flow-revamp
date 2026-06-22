@@ -137,7 +137,7 @@ Before writing code, agents must know **what to reuse vs create**. Context catal
 
 ### Reason it exists
 
-`plan.md` says *"build a toggle control"*. Findings say *"reuse existing base component — extend here; reuse App shell; reuse these API routes"*. Design findings add *"use registered theme tokens, i18n keys from catalog, extend base tier not dialog shell"*.
+`plan.md` says *"add settings panel"*. Findings say *"reuse existing list component; add one new API route"*. Design findings add *"reuse theme tokens and i18n keys from catalog; extend registered base component"*.
 
 **Overlap with navigator:** navigator lists FE paths at file level; design-navigator goes deeper on **how** UI must be built (theme/i18n/tiers). Same file, different sections.
 

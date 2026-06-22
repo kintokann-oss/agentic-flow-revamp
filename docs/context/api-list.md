@@ -12,7 +12,7 @@
 | Column | Meaning |
 |--------|---------|
 | method | HTTP verb (GET, PUT, POST, DELETE) |
-| path | URL path (e.g. `/api/toggle-state`) |
+| path | URL path (e.g. `/api/items`) |
 | handler | Python function name |
 | request_type | Pydantic body model or empty for no body |
 | response_type | Pydantic response model |

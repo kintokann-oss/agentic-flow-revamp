@@ -7,7 +7,7 @@ Read **one** relevant catalog before opening source code.
 
 ### Section headings
 
-- Format: `## <repo-relative-source-path>` (e.g. `## apps/api/src/routes/toggle_state.py`)
+- Format: `## <repo-relative-source-path>` (e.g. `## src/routes/items.py` under backend root)
 - One section per source file
 - **Must match** the `File` column in test handoffs — `validate_context_catalog.py` uses exact heading match at task end
 

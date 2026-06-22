@@ -1,6 +1,6 @@
-# Backend rules (FastAPI)
+# Backend rules
 
-**Scope:** `@profile:paths.backend_root/**` · **Catalogs:** [api-list.md](../context/api-list.md), [be-services.md](../context/be-services.md), [types.md](../context/types.md)
+**Scope:** `@profile:paths.backend_root/**` · **Stack:** `@profile:stack.backend`
 
 ## File layout
 
@@ -14,7 +14,7 @@
 
 ## Route handlers
 
-- One router file per feature (e.g. `toggle_state.py`, `saved_time.py`)
+- One router file per feature (e.g. `items.py`, `users.py`)
 - **Thin handler:** parse request → call service → return response model
 - Register routes with `@router.get` / `@router.put` etc.; mount router in app entry
 - Document every route in [api-list.md](../context/api-list.md)

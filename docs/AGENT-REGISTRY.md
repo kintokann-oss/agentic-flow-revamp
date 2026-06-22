@@ -24,7 +24,7 @@
 | orchestrator | Execute steps, state, dispatch | No | — |
 | navigator | Reuse/create → `findings.md` | No | anchor |
 | fe-design-navigator | Design findings → `findings.md` | No | anchor |
-| be-sql-agent | SQLite migrations + `be-sql-handoff.md` + be-schema catalog | Yes (schema only) | anchor |
+| be-sql-agent | Schema migrations + `be-sql-handoff.md` + be-schema catalog | Yes (schema only) | anchor |
 | be-dev | Backend + `contract-summary.md` + `be-test-handoff.md` | Yes (BE) | light |
 | be-testing-agent | `@profile:commands.be_test` from handoff / test-gap | Tests only | light |
 | fe-dev | UI + `ui-summary.md` + `fe-test-handoff.md` | Yes (FE) | anchor |
