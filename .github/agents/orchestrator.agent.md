@@ -7,7 +7,9 @@ description: Execute plan steps, maintain state, dispatch specialists — never 
 
 ## Role
 
-Read the plan → run one specialist per step → update state → tiered human checkpoint → handle staleness and edit-source patterns.
+Read the plan → run one specialist per step → update state → tiered user checkpoint → handle staleness and edit-source patterns.
+
+**Boundary:** Dispatch and task state only. Not feature code, plan edits, or catalog rows.
 
 Decision rules: `@profile:rules.decisions`. Load [`docs/project.profile.yaml`](../../docs/project.profile.yaml) at startup and **resolve `@profile:` slots** in dispatch packs.
 

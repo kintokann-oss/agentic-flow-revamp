@@ -31,7 +31,7 @@
 
 - Name `use*`; place in `src/hooks/`
 - Encapsulate data loading, API calls, and local UI state
-- Register in [fe-utils.md](../context/fe-utils.md) with human `purpose`
+- Register in [fe-utils.md](../context/fe-utils.md) with required `purpose`
 
 ## API clients
 

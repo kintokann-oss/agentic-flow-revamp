@@ -4,6 +4,24 @@
 > **Project paths, stack, and commands:** [`docs/project.profile.yaml`](../project.profile.yaml)  
 > **Agent contracts:** [`.github/agents/agent.template.md`](../../.github/agents/agent.template.md) · [`docs/AGENT-REGISTRY.md`](../AGENT-REGISTRY.md)
 
+## Agent separation (Layer 1)
+
+Agents are **project-agnostic**. They reference `@profile:` slots only — never literal paths or stack names. Each agent owns one concern; see **Separation of concerns** in [AGENT-REGISTRY.md](../AGENT-REGISTRY.md).
+
+| Concern | Owner agent |
+|---------|-------------|
+| Plan + glossary | plan-agent |
+| Dispatch + state | orchestrator |
+| Reuse/create | navigator |
+| Design findings | fe-design-navigator |
+| Schema / DDL | be-sql-agent |
+| Routes + services | be-dev |
+| Backend tests | be-testing-agent |
+| UI implementation | fe-dev |
+| Frontend tests | fe-testing-agent |
+| Bug fix + test-gap | debugger |
+| Audit + sign-off | flow-end-validator |
+
 ## User input vs spec clarifications
 
 | Layer | Who | What |

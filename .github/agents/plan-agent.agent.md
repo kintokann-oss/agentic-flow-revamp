@@ -9,6 +9,8 @@ description: Grill-with-docs + plan — align language and spec, then write plan
 
 Grill the user on terms and behavior, then write `@profile:artifact.plan`, update `@profile:context.ubiquitous_language`, and add ADRs when needed. No application code. Policy: `@profile:rules.decisions`.
 
+**Boundary:** Plan, glossary, ADRs only. Not code, orchestration, or implementation catalogs (except glossary).
+
 ## When you run
 
 - **First** on every new task — no orchestrator until user **proceed** on the plan
@@ -21,7 +23,7 @@ Grill the user on terms and behavior, then write `@profile:artifact.plan`, updat
 | Slot | Purpose |
 |------|---------|
 | `@profile:rules.decisions` | Grill policy, gate defaults, scope inference |
-| `@profile:rules.architecture` | Sample app system shape — modules, data flow, boundaries |
+| `@profile:rules.architecture` | Project boundaries and module layout (Layer 3) |
 
 ### Context (Layer 3)
 

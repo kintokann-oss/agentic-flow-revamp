@@ -16,13 +16,13 @@ Application code, stack, and paths are **not** in agent files. They live in [`do
 
 | Piece | Location |
 |-------|----------|
-| Agent roles | [`.github/agents/`](.github/agents/) |
+| Agent roles + boundaries | [`.github/agents/`](.github/agents/) · [AGENT-REGISTRY.md](docs/AGENT-REGISTRY.md) |
 | Profile (paths, commands, bindings) | [`docs/project.profile.yaml`](docs/project.profile.yaml) |
 | Orchestration policy | [`docs/rules/agent-decisions.md`](docs/rules/agent-decisions.md) |
 | Project rules | [`docs/rules/`](docs/rules/) — coding, architecture, testing, … |
 | Export catalogs | [`docs/context/`](docs/context/) — durable inventory per task |
 | Task run | [`docs/working/<TASK-ID>/`](docs/working/) — plan, findings, handoffs, state |
-| Agent roster | [`docs/AGENT-REGISTRY.md`](docs/AGENT-REGISTRY.md) |
+| Agent roster + separation matrix | [`docs/AGENT-REGISTRY.md`](docs/AGENT-REGISTRY.md) |
 | Artifact guide | [`docs/working/ARTIFACTS.md`](docs/working/ARTIFACTS.md) |
 | Catalog audit script | [`scripts/validate_context_catalog.py`](scripts/validate_context_catalog.py) |
 

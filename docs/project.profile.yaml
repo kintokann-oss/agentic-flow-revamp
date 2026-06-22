@@ -1,6 +1,6 @@
 # Project profile — edit this file to adapt the agent flow to another repo.
-# Agents reference slots as @profile:paths.backend_root, @profile:context.api_catalog, etc.
-# Orchestrator resolves {paths.*} and slot names when dispatching.
+# Layer 1 agents (.github/agents/) stay generic and reference slots below only.
+# Layer 3 (this file + docs/rules/* + docs/context/*) is project-specific.
 
 meta:
   name: agentic-flow-revamp

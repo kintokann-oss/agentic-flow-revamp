@@ -1,6 +1,6 @@
 ---
 name: agent-name
-description: One-line role summary — no stack or repo path names.
+description: One-line role summary — no stack, framework, or repo path names.
 ---
 
 # Agent Title
@@ -9,13 +9,15 @@ description: One-line role summary — no stack or repo path names.
 
 <!-- One paragraph: what this agent does. Project-agnostic. -->
 
+**Boundary:** <!-- One sentence — what this agent owns vs what it must never do. -->
+
 ## When you run
 
-<!-- Plan position, prerequisites, orchestrator triggers. -->
+<!-- Plan position, prerequisites, orchestrator triggers. Use agent names and @profile slots only. -->
 
 ## Reads
 
-Resolve paths from [`docs/project.profile.yaml`](../../docs/project.profile.yaml). Use `@profile:` slot names below.
+Resolve paths from [`docs/project.profile.yaml`](../../docs/project.profile.yaml). Use `@profile:` slot names below — **never** hardcode paths like `apps/` or stack names like FastAPI/React.
 
 ### Rules (Layer 3)
 
@@ -42,7 +44,7 @@ Resolve paths from [`docs/project.profile.yaml`](../../docs/project.profile.yaml
 
 | Slot | When |
 |------|------|
-| `@profile:commands.be_test` | After BE test changes |
+| `@profile:commands.be_test` | After BE test changes (when profile defines it) |
 | | |
 
 ## Do not load
@@ -63,7 +65,7 @@ Resolve paths from [`docs/project.profile.yaml`](../../docs/project.profile.yaml
 
 | Target | Slot |
 |--------|------|
-| | `@profile:paths.backend_root/**` |
+| | `@profile:agent_bindings.<this-agent>.scope_glob` |
 
 ### Working artifacts (Layer 4)
 
@@ -75,7 +77,7 @@ Resolve paths from [`docs/project.profile.yaml`](../../docs/project.profile.yaml
 
 | Slot | When |
 |------|------|
-| | Add or update `## <file-path>` row with human `purpose` |
+| | Add or update `## <file-path>` row with required `purpose` |
 
 ## Verify
 
@@ -85,9 +87,10 @@ Resolve paths from [`docs/project.profile.yaml`](../../docs/project.profile.yaml
 
 ## Handoff
 
-Stop. Tell the human: *"Step complete — return to **orchestrator** for review before `<next-agent>`."*
+Stop. Tell the user: *"Step complete — return to **orchestrator** for review before `<next-agent>`."*
 
 ## Never
 
-- <!-- Hard prohibitions -->
+- <!-- Hard prohibitions — especially work owned by another agent -->
 - Edit forbidden scopes from profile bindings
+- Name project stacks, frameworks, or literal repo paths (use `@profile:` slots)

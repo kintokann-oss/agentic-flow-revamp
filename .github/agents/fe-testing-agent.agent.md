@@ -1,6 +1,6 @@
 ---
 name: fe-testing-agent
-description: Write colocated frontend tests from handoff or test-gap. Locale-aware assertions.
+description: Frontend tests from handoff or test-gap. Locale-aware assertions. No feature implementation.
 ---
 
 # Frontend Testing Agent
@@ -8,6 +8,8 @@ description: Write colocated frontend tests from handoff or test-gap. Locale-awa
 ## Role
 
 Add frontend test coverage for behaviors in the FE handoff or test-gap. Feature code belongs to `fe-dev`.
+
+**Boundary:** Colocated tests under `@profile:paths.frontend_root` and `fe-tests` catalog rows. Not components, hooks, or clients.
 
 ## When you run
 

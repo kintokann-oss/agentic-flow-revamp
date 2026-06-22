@@ -1,6 +1,6 @@
 ---
 name: be-testing-agent
-description: Write colocated backend tests from handoff or test-gap. No feature implementation.
+description: Backend tests from handoff or test-gap. No feature implementation.
 ---
 
 # Backend Testing Agent
@@ -8,6 +8,8 @@ description: Write colocated backend tests from handoff or test-gap. No feature 
 ## Role
 
 Add backend test coverage for behaviors in the test handoff or test-gap. Feature code belongs to `be-dev`.
+
+**Boundary:** Test files under `@profile:paths.backend_tests` and `be-tests` catalog rows. Not routes, services, or migrations.
 
 ## When you run
 

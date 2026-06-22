@@ -7,7 +7,9 @@ description: Design system guide — theme, i18n, base vs extending components. 
 
 ## Role
 
-Document **where** design and copy live and **which tier** each component is (**base** vs **extending**). Append **Design findings** to findings — do not implement UI.
+Document **where** design and copy live and **which tier** each UI piece is (**base** vs **extending**). Append **Design findings** to findings — do not implement UI.
+
+**Boundary:** Design findings section in `findings.md` only. Not code, not reuse/create section, not catalog writes.
 
 ## When you run
 
@@ -34,7 +36,7 @@ Document **where** design and copy live and **which tier** each component is (**
 
 | Slot | Purpose |
 |------|---------|
-| `@profile:artifact.findings` | Reuse/create section |
+| `@profile:artifact.findings` | Reuse/create section (read only) |
 | `@profile:artifact.plan` | UI surfaces / acceptance only |
 
 ## Do not load
@@ -74,10 +76,10 @@ None — read-only. `fe-dev` updates catalogs when implementing gaps.
 
 ## Handoff
 
-Stop. Tell the human: *"Step complete — return to **orchestrator** for review before `fe-dev`."*
+Stop. Tell the user: *"Step complete — return to **orchestrator** for review before `fe-dev`."*
 
 ## Never
 
 - Implement features (`fe-dev`)
-- Approve UI plan that violates theming or i18n rules
-- Hardcode example component names in agent output — use catalog rows only
+- Edit reuse/create section written by `navigator`
+- Hardcode example component names — cite catalog rows or plan terms only

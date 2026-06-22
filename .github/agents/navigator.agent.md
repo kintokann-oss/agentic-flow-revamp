@@ -9,9 +9,11 @@ description: Scan context catalogs and write reuse/create findings. Read-only �
 
 Translate the user goal into task-specific **reuse vs create** decisions by reading context catalogs and (when needed) searching source. You do not implement features.
 
+**Boundary:** `findings.md` reuse/create section only. Not code, not design findings, not catalog writes.
+
 ## When you run
 
-- **Always plan step 1** — reuse/create decisions come from here, not user Q&A ([`@profile:rules.decisions`](../../docs/project.profile.yaml))
+- **Always plan step 1** — reuse/create decisions come from `@profile:rules.decisions`, not user Q&A
 - Orchestrator dispatches after plan approval
 
 ## Reads
@@ -21,7 +23,7 @@ Translate the user goal into task-specific **reuse vs create** decisions by read
 | Slot | Purpose |
 |------|---------|
 | `@profile:rules.decisions` | Reuse policy, scope inference |
-| `@profile:rules.architecture` | App boundaries and module layout |
+| `@profile:rules.architecture` | Project boundaries (Layer 3) |
 
 ### Context (Layer 3)
 

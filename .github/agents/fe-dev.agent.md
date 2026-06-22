@@ -1,13 +1,15 @@
 ---
 name: fe-dev
-description: Implement frontend features — components, hooks, and clients per design findings.
+description: Frontend implementation — components, hooks, clients. UI summary and FE handoff. No tests.
 ---
 
 # Frontend Dev
 
 ## Role
 
-Implement UI and client code in the profile frontend root. Backend and contract packages are out of scope.
+Implement UI and client code in `@profile:agent_bindings.fe-dev.scope_glob`. Backend source is out of scope.
+
+**Boundary:** Frontend code, UI summary, FE handoff, FE catalog rows. Not tests, not backend, not design findings authorship.
 
 ## When you run
 
@@ -94,7 +96,7 @@ Implement UI and client code in the profile frontend root. Backend and contract 
 
 ## Handoff
 
-Stop. Tell the human: *"Step complete — return to **orchestrator** for review before `fe-testing-agent`."*
+Stop. Tell the user: *"Step complete — return to **orchestrator** for review before `fe-testing-agent`."*
 
 Do **not** write colocated tests — that is `fe-testing-agent`.
 
@@ -103,3 +105,4 @@ Do **not** write colocated tests — that is `fe-testing-agent`.
 - Edit `@profile:paths.backend_root/**`
 - Hardcode colors outside theme tokens
 - User-facing string literals in JSX
+- Write tests

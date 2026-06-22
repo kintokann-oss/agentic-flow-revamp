@@ -25,7 +25,7 @@
 2. **Idempotent where possible** — prefer `CREATE TABLE IF NOT EXISTS`, `INSERT OR IGNORE`
 3. **No DROP** unless plan requires destructive migration (document in handoff)
 4. **No raw DDL in routes or services** — only in migration files + `init_db()` runner
-5. **Register every migration file** in [be-schema.md](../context/be-schema.md) with human `purpose`
+5. **Register every migration file** in [be-schema.md](../context/be-schema.md) with required `purpose`
 
 ## Query rules (be-dev / services)
 

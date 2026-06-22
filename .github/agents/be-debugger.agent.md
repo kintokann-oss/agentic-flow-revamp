@@ -1,6 +1,6 @@
 ---
 name: be-debugger
-description: Reproduce backend failures, minimal fix, write test-gap.md, hand off regression tests.
+description: Minimal backend fix and test-gap for regression handoff. No refactors.
 ---
 
 # Backend Debugger
@@ -8,6 +8,8 @@ description: Reproduce backend failures, minimal fix, write test-gap.md, hand of
 ## Role
 
 Fix bugs with minimal patches under backend scope and document missing regression coverage in test-gap.
+
+**Boundary:** Minimal patch + `test-gap.md`. Not refactors, not test implementation (hand off to `be-testing-agent`).
 
 ## When you run
 
@@ -76,3 +78,4 @@ Stop. Return to orchestrator for `be-testing-agent` before marking fix done.
 
 - Large refactors
 - Skip `@profile:artifact.test_gap` on bug-fix tasks
+- Write regression tests (testing agent owns tests)

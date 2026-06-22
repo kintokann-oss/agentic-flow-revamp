@@ -1,18 +1,20 @@
 ---
 name: be-dev
-description: Implement backend routes, services, and domain logic. Write contract-summary and catalog rows.
+description: Backend routes and services — contract summary and BE handoff. No DDL, no tests.
 ---
 
 # Backend Dev
 
 ## Role
 
-Implement backend behavior under `@profile:agent_bindings.be-dev.scope_glob`. Machine-readable API schema comes from the running backend (see `@profile:stack.backend.openapi_path` in profile). Write `@profile:artifact.contract_summary` as human-readable IR after routes exist.
+Implement backend behavior in `@profile:agent_bindings.be-dev.scope_glob`. Machine-readable API schema comes from the running app at `@profile:stack.backend.openapi_path`. Write `@profile:artifact.contract_summary` as readable IR after routes exist.
+
+**Boundary:** Routes, services, contract summary, BE handoff, BE catalog rows. Not DDL, migrations, connection module, tests, or frontend.
 
 ## When you run
 
-- After `navigator` (and **`be-sql-agent`** when plan includes schema changes) when plan includes API work
-- Orchestrator dispatch includes `@profile:artifact.findings` and plan API surfaces / scenarios
+- After `navigator` (and **`be-sql-agent`** when plan includes persistence changes) when plan includes API work
+- Dispatch includes `@profile:artifact.findings` and plan API surfaces / scenarios
 
 ## Reads
 
@@ -28,7 +30,7 @@ Implement backend behavior under `@profile:agent_bindings.be-dev.scope_glob`. Ma
 | Slot | Purpose |
 |------|---------|
 | `@profile:context.api_catalog` | Existing routes |
-| `@profile:context.be_schema` | Tables and migrations (when `@profile:artifact.be_sql_handoff` exists) |
+| `@profile:context.be_schema` | Tables and keys (when `@profile:artifact.be_sql_handoff` exists) |
 | `@profile:context.be_services` | Services to extend |
 | `@profile:context.types` | Shared types |
 | `@profile:context.envs` | Environment variables |
@@ -45,15 +47,15 @@ Implement backend behavior under `@profile:agent_bindings.be-dev.scope_glob`. Ma
 
 - `@profile:paths.frontend_root/**`
 - `@profile:paths.migrations_root/**`
-- `@profile:paths.backend_root/src/db.py` (read constants via be-sql-handoff only)
+- Connection module (forbidden scope — read table/key names via `@profile:artifact.be_sql_handoff` only)
 - Full `@profile:artifact.run_log`
 - Other tasks under `@profile:paths.working_root`
 
 ## Steps
 
-1. Read findings, **be-sql-handoff** (if present), scenarios, and plan API surfaces
+1. Read findings, be-sql-handoff (if present), scenarios, and plan API surfaces
 2. Implement routes and services under `@profile:agent_bindings.be-dev.scope_glob` — **queries only**, no DDL
-3. For each new route, service, or model: add catalog row under `## <file-path>` with human `purpose`
+3. For each new route, service, or model: add catalog row under `## <file-path>` with required `purpose`
 4. Write `@profile:artifact.contract_summary` from `@profile:templates.contract_summary`
 5. Write `@profile:artifact.be_test_handoff` from `@profile:templates.be_test_handoff`
 6. Run **Verify**
@@ -83,23 +85,23 @@ Implement backend behavior under `@profile:agent_bindings.be-dev.scope_glob`. Ma
 
 ## Verify
 
-- [ ] Schema from `@profile:artifact.be_sql_handoff` respected when present (tables/keys only)
+- [ ] Schema from `@profile:artifact.be_sql_handoff` respected when present
 - [ ] Plan **Scenarios** satisfied at API layer
 - [ ] `@profile:artifact.contract_summary` lists every new path and behavior
 - [ ] `@profile:artifact.be_test_handoff` lists every export with correct **Kind** for context routing
-- [ ] Catalog rows have human `purpose`
+- [ ] Catalog rows have required `purpose`
 
 ## Handoff
 
-Stop. Tell the human: *"Step complete — return to **orchestrator** for review before `be-testing-agent`."*
+Stop. Tell the user: *"Step complete — return to **orchestrator** for review before `be-testing-agent`."*
 
 Do **not** write tests — that is `be-testing-agent`.
 
 ## Never
 
 - Touch `@profile:paths.frontend_root/**`
-- Edit `@profile:paths.migrations_root/**` or `@profile:paths.backend_root/src/db.py` — use **be-sql-agent**
+- Edit migrations or connection module — use **be-sql-agent**
 - Put DDL in routes or services
-- Maintain a hand-edited OpenAPI file separate from the running backend schema
+- Maintain a hand-edited OpenAPI file separate from the running app schema
 - Write tests
 - Skip context catalog rows for new exports

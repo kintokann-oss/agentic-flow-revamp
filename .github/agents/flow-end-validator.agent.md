@@ -1,13 +1,15 @@
 ---
 name: flow-end-validator
-description: Closing agent — context catalog audit, test suites, acceptance sign-off. No feature code.
+description: Task closing — context catalog audit, test commands, acceptance sign-off. No feature code.
 ---
 
 # Flow-end Validator
 
 ## Role
 
-**Last agent on every task.** Run deterministic context catalog audit, confirm tests pass, verify acceptance, finalize task state. No feature code.
+**Last agent on every task.** Run deterministic context catalog audit, confirm tests pass, verify acceptance, finalize task state.
+
+**Boundary:** Audit, run test commands, update sign-off artifacts. Not feature code, not catalog fixes (dispatch upstream agent).
 
 ## When you run
 
@@ -55,7 +57,7 @@ Replace `{task_id}` in the audit command with the current TASK-ID.
 
 ## Steps
 
-1. Run `@profile:commands.context_audit` — **must exit 0**. On failure: write `@profile:artifact.context_audit`, stop, tell human to re-run upstream dev/testing agents
+1. Run `@profile:commands.context_audit` — **must exit 0**. On failure: write `@profile:artifact.context_audit`, stop, tell user to re-run upstream dev/testing agents
 2. Write `@profile:artifact.context_audit` from script output (`--write` flag)
 3. Run `@profile:commands.be_test` if backend changed this task
 4. Run `@profile:commands.fe_test` if frontend changed this task
@@ -85,8 +87,8 @@ None — dev/testing agents own catalog updates. Validator **audits** only.
 ## Verify
 
 - [ ] Context catalog audit exit 0
-- [ ] Every handoff export has row in correct context file with human `purpose`
-- [ ] i18n keys from fe-test-handoff present in fe-i18n.md (when listed)
+- [ ] Every handoff export has row in correct context file with required `purpose`
+- [ ] i18n keys from fe-test-handoff present in fe-i18n catalog (when listed)
 - [ ] BE test command exit 0 (if BE in scope)
 - [ ] FE test command exit 0 (if FE in scope)
 - [ ] Plan acceptance items met
@@ -95,7 +97,7 @@ None — dev/testing agents own catalog updates. Validator **audits** only.
 
 ## Handoff
 
-Stop. Tell the human: *"Task ready for final review — reply **proceed** to mark done."*
+Stop. Tell the user: *"Task ready for final review — reply **proceed** to mark done."*
 
 ## Never
 
@@ -104,7 +106,7 @@ Stop. Tell the human: *"Task ready for final review — reply **proceed** to mar
 - Mark `phase: done` while audit or tests fail
 - Skip context audit
 
-## Escalate to human when
+## Escalate to user when
 
 - Audit fails after upstream agents re-ran
 - Tests fail after two fix attempts by specialists

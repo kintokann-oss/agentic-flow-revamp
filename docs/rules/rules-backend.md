@@ -29,7 +29,7 @@
 
 - Pure functions in `src/services/` — accept primitives / models, return domain data
 - **No HTTP types** inside services (no `Request`, `HTTPException`, status codes)
-- Register every exported function in [be-services.md](../context/be-services.md) with human `purpose`
+- Register every exported function in [be-services.md](../context/be-services.md) with required `purpose`
 
 ## Persistence
 
@@ -56,7 +56,7 @@
 | Service function | [be-services.md](../context/be-services.md) |
 | Shared Pydantic model | [types.md](../context/types.md) |
 
-Section heading must match the source file path exactly (repo-relative). Every row needs a human-written `purpose`.
+Section heading must match the source file path exactly (repo-relative). Every row needs a required `purpose`.
 
 ## Testing
 
